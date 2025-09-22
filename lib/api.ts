@@ -13,7 +13,7 @@ const perPage = 12;
 type SortBy = 'created' | 'updated';
 
 type SearchParams = {
-  search?: string;
+  search: string;
   tag?: TAG;
   page?: number;
   sortBy?: SortBy;
@@ -24,7 +24,7 @@ type NoteResponse = {
   totalPages: number;
 };
 
-export async function getNotes(params: SearchParams) {
+export async function getNotes(params: SearchParams = { search: '' }) {
   const response = await axios.get<NoteResponse>('/notes', {
     params: {
       ...params,
