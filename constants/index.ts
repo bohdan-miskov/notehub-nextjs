@@ -7,3 +7,5 @@ export enum TAG {
 }
 
 export const TAGS_ARRAY = Object.values(TAG);
+
+export const MAX_PAG_COUNT = 6;

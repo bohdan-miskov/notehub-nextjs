@@ -19,7 +19,7 @@
     color 0.2s ease;
 }
 
-.pagination li a {
+.pagination li button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,7 +43,7 @@
   border-color: #0d6efd;
 }
 
-.active a {
+.active button {
   color: #fff !important;
   font-weight: 500;
 }
