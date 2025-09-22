@@ -1,8 +1,8 @@
 'use client';
 
 import { deleteNote, getNotes } from '@/lib/api';
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import SearchBox from '../SearchBox/SearchBox';
 import Pagination from '../Pagination/Pagination';
 import NoteList from '../NoteList/NoteList';
@@ -10,6 +10,7 @@ import NoteList from '../NoteList/NoteList';
 export default function NoteListClient() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['notes', search, page],
@@ -17,23 +18,24 @@ export default function NoteListClient() {
     refetchOnMount: false,
   });
 
-  const [notes, setNotes] = useState(data?.notes ?? []);
+  const notes = data?.notes ?? [];
   const totalPages = data?.totalPages ?? 0;
 
   async function handleDelete(id: string) {
     await deleteNote(id);
-    setNotes(prevNotes => prevNotes.filter(note => note.id != id));
+    //setNotes(prevNotes => prevNotes.filter(note => note.id != id));
+    queryClient.invalidateQueries({ queryKey: ['notes', search, page] });
   }
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (error || !notes) return <p>Some error..</p>;
+  if (error || !data) return <p>Some error..</p>;
 
   return (
     <div>
       <div>
         <SearchBox search={search} setSearch={setSearch} />
-        <Pagination page={page} totalPages={totalPages} />
+        <Pagination page={page} totalPages={totalPages} setPage={setPage} />
       </div>
       <NoteList notes={notes} handleDelete={handleDelete} />
     </div>
