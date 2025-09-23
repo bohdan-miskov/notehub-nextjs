@@ -5,6 +5,7 @@ import css from './NoteDetailsClient.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { getNoteById } from '@/lib/api';
 import formatDateToNow from '@/utils/formatDateToNow';
+import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 
 export default function NoteDetailsClient() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +20,7 @@ export default function NoteDetailsClient() {
     refetchOnMount: false,
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <FullScreenLoader text="Note loading ..." />;
 
   if (error || !note) return <p>Some error..</p>;
 

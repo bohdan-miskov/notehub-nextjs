@@ -7,6 +7,8 @@ import SearchBox from '../SearchBox/SearchBox';
 import Pagination from '../Pagination/Pagination';
 import NoteList from '../NoteList/NoteList';
 import css from './NoteListClient.module.css';
+import clsx from 'clsx';
+import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 
 export default function NoteListClient() {
   const [search, setSearch] = useState('');
@@ -28,18 +30,16 @@ export default function NoteListClient() {
     queryClient.invalidateQueries({ queryKey: ['notes', search, page] });
   }
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <FullScreenLoader text="Notes loading ..." />;
 
   if (error || !data) return <p>Some error..</p>;
 
   return (
     <div>
       <section className={css.headerSection}>
-        <div className="container">
-          <div className={css.header}>
-            <SearchBox search={search} setSearch={setSearch} />
-            <Pagination page={page} totalPages={totalPages} setPage={setPage} />
-          </div>
+        <div className={clsx('container', css.header)}>
+          <SearchBox search={search} setSearch={setSearch} />
+          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       </section>
       <NoteList notes={notes} handleDelete={handleDelete} />
