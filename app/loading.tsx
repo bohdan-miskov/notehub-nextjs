@@ -1,3 +1,5 @@
+import FullScreenLoader from '@/components/FullScreenLoader/FullScreenLoader';
+
 export default function Loading() {
-  return <p>Loading, please wait...</p>;
+  return <FullScreenLoader text="Page loading ..." />;
 }
