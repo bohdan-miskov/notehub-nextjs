@@ -9,18 +9,22 @@ type Props = {
 
 export default function NoteList({ notes, handleDelete }: Props) {
   return (
-    <ul className={css.list}>
-      {notes.map(({ id, title, content, tag }) => (
-        <li key={id}>
-          <NoteCard
-            id={id}
-            title={title}
-            content={content}
-            tag={tag}
-            handleDelete={handleDelete}
-          />
-        </li>
-      ))}
-    </ul>
+    <section className={css.listSection}>
+      <div className="container">
+        <ul className={css.list}>
+          {notes.map(({ id, title, content, tag }) => (
+            <li key={id}>
+              <NoteCard
+                id={id}
+                title={title}
+                content={content}
+                tag={tag}
+                handleDelete={handleDelete}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }

@@ -1,37 +1,100 @@
 .header {
+  padding: 16px 0;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+  color: white;
+  opacity: 0.85;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: opacity 300ms ease;
+}
+
+.header:hover {
+  opacity: 1;
+}
+
+.headerContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #333;
-  color: white;
+  padding: 0 64px;
 }
 
 .header a {
   text-decoration: none;
   color: white;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 700;
+  transition: color 0.3s ease;
 }
 
 .header a:hover {
-  color: #ddd;
+  color: #f0f0f0;
 }
 
 .navigation {
-  list-style-type: none;
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
-  display: flex;
-  gap: 1rem;
 }
 
 .navigation li a {
-  text-decoration: none;
-  color: white;
   font-size: 1rem;
+  font-weight: 500;
+  transition:
+    color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .navigation li a:hover {
-  color: #ddd;
+  color: #fbbf24; /* яскравий акцент при hover */
+  transform: translateY(-2px);
+}
+
+/* Адаптивність для мобільних */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .navigation {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+}
+
+.active {
+  color: #fbbf24; /* яскравий жовтий акцент */
+  font-weight: 600;
+  position: relative;
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #fbbf24,
+    #f97316
+  ); /* градієнтна underline */
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+/* Анімація при hover та активній */
+.navigation li a:hover::after,
+.active::after {
+  transform: scaleX(1);
 }
