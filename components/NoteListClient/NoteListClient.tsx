@@ -2,10 +2,11 @@
 
 import { deleteNote, getNotes } from '@/lib/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SearchBox from '../SearchBox/SearchBox';
 import Pagination from '../Pagination/Pagination';
 import NoteList from '../NoteList/NoteList';
+import css from './NoteListClient.module.css';
 
 export default function NoteListClient() {
   const [search, setSearch] = useState('');
@@ -33,10 +34,14 @@ export default function NoteListClient() {
 
   return (
     <div>
-      <div>
-        <SearchBox search={search} setSearch={setSearch} />
-        <Pagination page={page} totalPages={totalPages} setPage={setPage} />
-      </div>
+      <section className={css.headerSection}>
+        <div className="container">
+          <div className={css.header}>
+            <SearchBox search={search} setSearch={setSearch} />
+            <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+          </div>
+        </div>
+      </section>
       <NoteList notes={notes} handleDelete={handleDelete} />
     </div>
   );

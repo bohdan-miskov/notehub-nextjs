@@ -17,7 +17,7 @@ export default function Pagination({ page, totalPages, setPage }: Props) {
   return (
     paginArray.length > 1 && (
       <nav aria-label="Pagination">
-        <ul>
+        <ul className={css.pagination}>
           {paginArray.map(num => (
             <li key={`pag-${num}`}>
               <button

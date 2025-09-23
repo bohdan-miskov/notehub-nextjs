@@ -5,7 +5,6 @@ export type Note = {
   title: string;
   content: string;
   tag: TAG;
-  userId: string;
   createdAt: Date;
   updatedAt: Date;
 };
