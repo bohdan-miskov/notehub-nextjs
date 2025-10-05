@@ -34,6 +34,19 @@
   list-style: none;
   min-width: 180px;
   z-index: 1000;
+
+  pointer-events: none;
+  transform: translateY(-15px);
+  opacity: 0;
+
+  transition: 300ms ease-in;
+  transition-property: transform, opacity;
+}
+
+.isOpen {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .menuItem {
