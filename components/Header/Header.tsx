@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import css from './Header.module.css';
 import { ActiveLink } from '../ActiveLink/ActiveLink';
+import TagsMenu from '../TagsMenu/TagsMenu';
 
 export default function Header() {
   return (
@@ -17,9 +18,10 @@ export default function Header() {
               </ActiveLink>
             </li>
             <li>
-              <ActiveLink href="/notes" activeClassName={css.active}>
+              {/* <ActiveLink href="/notes" activeClassName={css.active}>
                 Notes
-              </ActiveLink>
+              </ActiveLink> */}
+              <TagsMenu />
             </li>
           </ul>
         </nav>
