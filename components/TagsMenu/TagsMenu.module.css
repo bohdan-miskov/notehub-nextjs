@@ -1,52 +1,55 @@
+/* TagsMenu.module.css */
+
 .menuContainer {
   position: relative;
   display: inline-block;
+  font-family: 'Geist Sans', sans-serif;
 }
 
 .menuButton {
-  background-color: #f5f5f5;
-  color: #333;
-  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
   padding: 8px 16px;
-  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 500;
   border-radius: 8px;
   cursor: pointer;
   transition:
-    background-color 0.3s ease,
-    box-shadow 0.2s ease;
+    background 0.3s ease,
+    transform 0.2s ease;
+  backdrop-filter: blur(6px);
 }
 
 .menuButton:hover {
-  background-color: #eaeaea;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .menuList {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 8px);
   left: 0;
-  background-color: #333;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 6px 0;
-  margin: 0;
-  list-style: none;
+  background: rgba(30, 30, 50, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 8px 0;
   min-width: 180px;
-  z-index: 1000;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 
   pointer-events: none;
-  transform: translateY(-15px);
+  transform: translateY(-20px);
   opacity: 0;
-
-  transition: 300ms ease-in;
-  transition-property: transform, opacity;
+  transition: all 0.3s ease;
+  z-index: 1000;
 }
 
 .isOpen {
+  pointer-events: auto;
   transform: translateY(0);
   opacity: 1;
-  pointer-events: auto;
 }
 
 .menuItem {
@@ -55,14 +58,39 @@
 
 .menuLink {
   display: block;
-  padding: 8px 16px;
+  padding: 10px 16px;
   color: #f0f0f0;
   text-decoration: none;
-  font-size: 15px;
-  transition: background-color 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  border-left: 3px solid transparent;
+
+  outline: none;
 }
 
 .menuLink:hover {
-  background-color: #f0f0f0;
-  color: #333;
+  background: linear-gradient(90deg, #fbbf24, #f97316);
+  color: #1f1f1f;
+  border-left: 3px solid #fbbf24;
+  transform: translateX(2px);
+  border-radius: 6px 0 0 6px;
+}
+
+/* Адаптивність для маленьких екранів */
+@media (max-width: 600px) {
+  .menuList {
+    min-width: 140px;
+    right: 0;
+    left: auto;
+  }
+
+  .menuButton {
+    font-size: 0.95rem;
+    padding: 6px 12px;
+  }
+
+  .menuLink {
+    padding: 8px 12px;
+  }
 }
