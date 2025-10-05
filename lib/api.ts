@@ -1,5 +1,9 @@
-import { TAG } from '@/constants';
-import { Note, NoteCreatePayload, NoteUpdatePayload } from '@/types/note';
+import {
+  Note,
+  NoteCreatePayload,
+  NotesSearchParams,
+  NoteUpdatePayload,
+} from '@/types/note';
 import axios from 'axios';
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -9,21 +13,12 @@ axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
 const perPage = 12;
 
-type SortBy = 'created' | 'updated';
-
-type SearchParams = {
-  search?: string;
-  tag?: TAG;
-  page?: number;
-  sortBy?: SortBy;
-};
-
 type NoteResponse = {
   notes: Note[];
   totalPages: number;
 };
 
-export async function getNotes(params: SearchParams = {}) {
+export async function getNotes(params: NotesSearchParams = {}) {
   if (params.search === '') {
     delete params.search;
   }
