@@ -8,9 +8,14 @@ import { noteSchema } from './NoteForm.validation';
 type Props = {
   onClose: () => void;
   handleCreateNote: (values: NoteCreatePayload) => Promise<void>;
+  handleResetPagination: () => void;
 };
 
-export default function NoteForm({ onClose, handleCreateNote }: Props) {
+export default function NoteForm({
+  onClose,
+  handleCreateNote,
+  handleResetPagination,
+}: Props) {
   const tagOptions = TAGS_ARRAY.map(tag => {
     return { label: tag, value: tag };
   });
@@ -26,6 +31,7 @@ export default function NoteForm({ onClose, handleCreateNote }: Props) {
   ) => {
     await handleCreateNote(values);
     resetForm();
+    handleResetPagination();
     onClose();
   };
 
@@ -37,13 +43,17 @@ export default function NoteForm({ onClose, handleCreateNote }: Props) {
     >
       <Form className={css.form}>
         <div className={css.formGroup}>
-          <label htmlFor="title">Title</label>
+          <label className={css.label} htmlFor="title">
+            Title
+          </label>
           <Field id="title" type="text" name="title" className={css.input} />
           <ErrorMessage name="title" className={css.error} component="span" />
         </div>
 
         <div className={css.formGroup}>
-          <label htmlFor="content">Content</label>
+          <label className={css.label} htmlFor="content">
+            Content
+          </label>
           <Field
             id="content"
             name="content"
@@ -55,7 +65,9 @@ export default function NoteForm({ onClose, handleCreateNote }: Props) {
         </div>
 
         <div className={css.formGroup}>
-          <label htmlFor="tag">Tag</label>
+          <label className={css.label} htmlFor="tag">
+            Tag
+          </label>
           <SelectField name="tag" options={tagOptions} className={css.select} />
           <ErrorMessage name="tag" className={css.error} component="span" />
         </div>
