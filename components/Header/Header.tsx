@@ -18,9 +18,6 @@ export default function Header() {
               </ActiveLink>
             </li>
             <li>
-              {/* <ActiveLink href="/notes" activeClassName={css.active}>
-                Notes
-              </ActiveLink> */}
               <TagsMenu />
             </li>
           </ul>

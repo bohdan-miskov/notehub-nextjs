@@ -1,23 +1,129 @@
+.sidebarContainer {
+  position: fixed;
+  top: 80px;
+  left: 16px;
+  width: 90px; /* скручена ширина */
+  height: 60px;
+  max-height: calc(100vh * 0.75);
+  padding: 1rem 0.5rem;
+  background: rgba(30, 30, 50, 0.25);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  font-family: 'Geist Sans', sans-serif;
+  z-index: 1000;
+  transition: all 0.35s ease;
+  background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+}
+
+.sidebarContainer:hover {
+  width: 200px; /* розкривається */
+  height: 100%;
+  background: rgba(30, 30, 50, 0.95); /* стає більш видимим */
+  padding: 1rem 1rem;
+}
+
+.sidebarTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.35s ease;
+  text-align: center;
+
+  /* стиль для згорнутого стану */
+  color: #fbbf24; /* яскравий жовтий для контрасту */
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+}
+
+.sidebarContainer:hover .sidebarTitle {
+  /* при hover — сучасний градієнт */
+  background: linear-gradient(90deg, #fbbf24, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: unset;
+}
+
 .menuList {
-  list-style-type: none;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .menuItem {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+  opacity: 0; /* спочатку не видно тексту */
+  transform: translateX(-10px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.sidebarContainer:hover .menuItem {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .menuLink {
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  color: white;
-  font-size: 16px;
-  display: block;
-  padding: 8px 16px;
-  transition: background-color 0.3s ease;
+  color: #f0f0f0;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: all 0.35s ease;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.menuLink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(90deg, #fbbf24, #f97316);
+  transition: height 0.3s ease;
+  z-index: 0;
+}
+
+.menuLink:hover::after {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.menuLink span {
+  position: relative;
+  z-index: 1;
 }
 
 .menuLink:hover {
-  background-color: #444;
-  color: #ddd;
+  color: #1f1f1f;
+  transform: translateX(4px);
+}
+
+/* Адаптивні та скролінг стилі */
+.sidebarContainer {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.sidebarContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebarContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebarContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
 }

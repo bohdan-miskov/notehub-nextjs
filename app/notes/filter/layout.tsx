@@ -5,10 +5,10 @@ type Props = {
 
 const NotesLayout = ({ children, sidebar }: Props) => {
   return (
-    <section>
+    <div>
       <aside>{sidebar}</aside>
       <div>{children}</div>
-    </section>
+    </div>
   );
 };
 
