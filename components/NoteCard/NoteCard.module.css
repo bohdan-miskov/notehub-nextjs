@@ -1,0 +1,122 @@
+.cardContainer {
+  background-color: #f9fafb; /* світлий фон із легким відтінком */
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.cardContainer:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+  background-color: #ffffff; /* плавний “підсвітлений” ефект */
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #111827;
+}
+
+.content {
+  margin: 0;
+  flex-grow: 1;
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.7;
+  margin-bottom: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #6366f1;
+  background-color: #ede9fe;
+  border: 1px solid #c4b5fd;
+  border-radius: 20px;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.button,
+.link {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+  display: inline-block;
+}
+
+.button {
+  background-color: #f87171;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(248, 113, 113, 0.35);
+}
+
+.button:hover {
+  background-color: #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.45);
+}
+
+.link {
+  background-color: #6366f1;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.35);
+}
+
+.link:hover {
+  background-color: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.45);
+}
+
+/* Адаптивність */
+@media (max-width: 600px) {
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .tag {
+    max-width: 100%;
+  }
+
+  .button,
+  .link {
+    width: 100%;
+    text-align: center;
+  }
+}
