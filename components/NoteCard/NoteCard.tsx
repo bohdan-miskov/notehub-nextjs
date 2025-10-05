@@ -22,7 +22,9 @@ export default function NoteCard({
       <p className={css.content}>{content}</p>
       <div className={css.footer}>
         <span className={css.tag}>{tag}</span>
-        <Link href={`/notes/${id}`}>Details</Link>
+        <Link className={css.link} href={`/notes/${id}`}>
+          Details
+        </Link>
         <button className={css.button} onClick={onDelete}>
           Delete
         </button>

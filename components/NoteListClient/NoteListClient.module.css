@@ -20,6 +20,34 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
+.createBtn {
+  height: 36px;
+  min-width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3b82f6;
+  color: #ffffff;
+  font-weight: 600;
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.5s ease;
+  transition-property: border-color, background-color, color, box-shadow;
+}
+
+.createBtn:hover {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+  color: #3b82f6;
+}
+
+.createBtn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
 /* Адаптивність */
 @media (max-width: 1440px) {
   .header {

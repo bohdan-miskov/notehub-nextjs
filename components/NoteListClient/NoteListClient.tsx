@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteNote, getNotes } from '@/lib/api';
+import { createNote, deleteNote, getNotes } from '@/lib/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import SearchBox from '../SearchBox/SearchBox';
@@ -9,10 +9,14 @@ import NoteList from '../NoteList/NoteList';
 import css from './NoteListClient.module.css';
 import clsx from 'clsx';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
+import Modal from '../Modal/Modal';
+import NoteForm from '../NoteForm/NoteForm';
+import { NoteCreatePayload } from '@/types/note';
 
 export default function NoteListClient() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
@@ -30,6 +34,23 @@ export default function NoteListClient() {
     queryClient.invalidateQueries({ queryKey: ['notes', search, page] });
   }
 
+  async function handleCreateNote(payload: NoteCreatePayload) {
+    await createNote(payload);
+    queryClient.invalidateQueries({ queryKey: ['notes', search, page] });
+  }
+
+  function handleResetPagination() {
+    setPage(1);
+  }
+
+  function onModalClose() {
+    setModalOpen(false);
+  }
+
+  function onModalOpen() {
+    setModalOpen(true);
+  }
+
   if (isLoading) return <FullScreenLoader text="Notes loading ..." />;
 
   if (error || !data) return <p>Some error..</p>;
@@ -40,9 +61,19 @@ export default function NoteListClient() {
         <div className={clsx('container', css.header)}>
           <SearchBox search={search} setSearch={setSearch} />
           <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+          <button className={css.createBtn} onClick={onModalOpen}>
+            Create note +
+          </button>
         </div>
       </section>
       <NoteList notes={notes} handleDelete={handleDelete} />
+      <Modal isOpen={modalOpen} onClose={onModalClose}>
+        <NoteForm
+          handleCreateNote={handleCreateNote}
+          onClose={onModalClose}
+          handleResetPagination={handleResetPagination}
+        />
+      </Modal>
     </div>
   );
 }
