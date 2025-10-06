@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import css from './NoteDetailsClient.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { getNoteById } from '@/lib/api';
-import formatDateToNow from '@/utils/formatDateToNow';
+import { formatDateContent } from '@/utils/formatDate';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 
 export default function NoteDetailsClient() {
@@ -24,9 +24,7 @@ export default function NoteDetailsClient() {
 
   if (error || !note) return <p>Some error..</p>;
 
-  const formattedDate = note.updatedAt
-    ? `Updated at: ${formatDateToNow(note.updatedAt)}`
-    : `Created at: ${formatDateToNow(note.createdAt)}`;
+  const formattedDate = formatDateContent(note.createdAt, note.updatedAt);
 
   return (
     <section>
