@@ -11,9 +11,13 @@ import clsx from 'clsx';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import Modal from '../Modal/Modal';
 import NoteForm from '../NoteForm/NoteForm';
-import { NoteCreatePayload } from '@/types/note';
+import { NoteCreatePayload, NotesSearchParams } from '@/types/note';
 
-export default function NoteListClient() {
+type Props = {
+  searchParams: NotesSearchParams | undefined;
+};
+
+export default function NoteListClient({ searchParams }: Props) {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -21,7 +25,7 @@ export default function NoteListClient() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['notes', search, page],
-    queryFn: () => getNotes({ search, page }),
+    queryFn: () => getNotes({ ...searchParams, search, page }),
     refetchOnMount: false,
   });
 

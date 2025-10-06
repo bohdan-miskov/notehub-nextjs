@@ -12,10 +12,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body.ReactModal__Body--open {
-  overflow: hidden;
-}
-
 body > #__next {
   display: flex;
   flex-direction: column;
