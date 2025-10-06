@@ -39,23 +39,21 @@ export default function NoteDetailsModalClient(
 
   return (
     <>
-      {isOpen && (
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <div className={css.container}>
-            <div className={css.item}>
-              <div className={css.header}>
-                <h2>{note.title}</h2>
-              </div>
-
-              <div className={css.scrollArea}>
-                <p className={css.content}>{note.content}</p>
-              </div>
-
-              <p className={css.date}>{formattedDate}</p>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <div className={css.container}>
+          <div className={css.item}>
+            <div className={css.header}>
+              <h2>{note.title}</h2>
             </div>
+
+            <div className={css.scrollArea}>
+              <p className={css.content}>{note.content}</p>
+            </div>
+
+            <p className={css.date}>{formattedDate}</p>
           </div>
-        </Modal>
-      )}
+        </div>
+      </Modal>
     </>
   );
 }

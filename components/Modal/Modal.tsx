@@ -17,13 +17,17 @@ export default function Modal({ isOpen, onClose, children }: Props) {
   useEffect(() => {
     setIsMounted(true);
     ReactModal.setAppElement('#__next');
-    document.body.style.overflow = 'hidden';
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
 
     return () => {
       setIsMounted(false);
       document.body.style.overflow = 'auto';
     };
-  }, []);
+  }, [isOpen]);
 
   if (!isMounted) return null;
 
