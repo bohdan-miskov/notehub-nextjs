@@ -1,4 +1,4 @@
-import NoteDetailsModalClient from '@/components/NoteDetailsModal/NoteDetailsModalClient';
+import NoteDetailsModalClient from '@/components/NoteDetailsModalClient/NoteDetailsModalClient';
 import { getNoteById } from '@/lib/api';
 import {
   dehydrate,
@@ -18,10 +18,9 @@ export default async function NotePreview({ params }: Props) {
     queryKey: ['note', id],
     queryFn: () => getNoteById(id),
   });
-  console.log('Good!');
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NoteDetailsModalClient />
+      <NoteDetailsModalClient isOpen={true} />
     </HydrationBoundary>
   );
 }
