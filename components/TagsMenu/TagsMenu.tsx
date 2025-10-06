@@ -10,8 +10,17 @@ export default function TagsMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function onToggleMenu() {
+    if (!isMenuOpen) {
+      document.addEventListener('click', handleCloseMenu);
+    }
     setIsMenuOpen(prevIsOpen => !prevIsOpen);
   }
+
+  function handleCloseMenu() {
+    setIsMenuOpen(false);
+    document.removeEventListener('click', handleCloseMenu);
+  }
+
   return (
     <div className={css.menuContainer}>
       <button className={css.menuButton} onClick={onToggleMenu}>
