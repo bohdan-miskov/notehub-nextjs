@@ -15,9 +15,14 @@ export default function Modal({ isOpen, onClose, children }: Props) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true); //
+    setIsMounted(true);
     ReactModal.setAppElement('#__next');
-    return () => setIsMounted(false);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      setIsMounted(false);
+      document.body.style.overflow = 'auto';
+    };
   }, []);
 
   if (!isMounted) return null;

@@ -8,8 +8,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getNoteById } from '@/lib/api';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 
-export default function NoteDetailsModalClient() {
-  console.log('Good! Client');
+type Props = {
+  isOpen: boolean;
+};
+
+export default function NoteDetailsModalClient(
+  { isOpen }: Props = { isOpen: true }
+) {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const {
@@ -33,16 +38,24 @@ export default function NoteDetailsModalClient() {
   const formattedDate = formatDateContent(note.createdAt, note.updatedAt);
 
   return (
-    <Modal isOpen={true} onClose={onClose}>
-      <div className={css.container}>
-        <div className={css.item}>
-          <div className={css.header}>
-            <h2>{note.title}</h2>
+    <>
+      {isOpen && (
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <div className={css.container}>
+            <div className={css.item}>
+              <div className={css.header}>
+                <h2>{note.title}</h2>
+              </div>
+
+              <div className={css.scrollArea}>
+                <p className={css.content}>{note.content}</p>
+              </div>
+
+              <p className={css.date}>{formattedDate}</p>
+            </div>
           </div>
-          <p className={css.content}>{note.content}</p>
-          <p className={css.date}>{formattedDate}</p>
-        </div>
-      </div>
-    </Modal>
+        </Modal>
+      )}
+    </>
   );
 }
