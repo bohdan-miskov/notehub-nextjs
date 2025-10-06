@@ -12,3 +12,12 @@ export type Note = {
 export type NoteCreatePayload = Pick<Note, 'title' | 'content' | 'tag'>;
 
 export type NoteUpdatePayload = Partial<NoteCreatePayload>;
+
+type SortBy = 'created' | 'updated';
+
+export type NotesSearchParams = {
+  search?: string;
+  tag?: TAG;
+  page?: number;
+  sortBy?: SortBy;
+};
