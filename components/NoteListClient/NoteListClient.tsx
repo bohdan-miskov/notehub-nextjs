@@ -54,6 +54,14 @@ export default function NoteListClient({ searchParams }: Props) {
             Create note +
           </Link>
         </div>
+        {(search || searchParams?.tag) && (
+          <div className="container">
+            <div className={css.currentFilters}>
+              {search && <span>Search: “{search}”</span>}
+              {searchParams?.tag && <span>Tag: {searchParams.tag}</span>}
+            </div>
+          </div>
+        )}
       </section>
       <NoteList notes={notes} handleDelete={handleDelete} />
     </div>

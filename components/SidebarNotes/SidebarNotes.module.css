@@ -3,7 +3,7 @@
   top: 80px;
   left: 16px;
   width: 90px;
-  max-height: 60px;
+  max-height: 50px;
 
   padding: 1rem 0.5rem;
   background: rgba(30, 30, 50, 0.25);
@@ -66,6 +66,97 @@
 .sidebarContainer:hover .menuItem {
   opacity: 1;
   transform: translateX(0);
+}
+
+.createLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #071133;
+  background: linear-gradient(90deg, #fbbf24, #f97316);
+  padding: 6px 8px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 22px rgba(248, 146, 20, 0.18);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.createLink:hover,
+.createLink:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(248, 146, 20, 0.22);
+  outline: none;
+}
+
+.createIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  color: #1f2937;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.createText {
+  display: inline-block;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    max-width 0.35s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidebarContainer:hover .createText,
+.sidebarContainer:focus-within .createText {
+  max-width: 200px;
+  opacity: 1;
+  transform: translateX(0);
+  margin-left: 4px;
+}
+
+.menuLink.active,
+.menuLink[aria-current='page'] {
+  color: #1f1f1f;
+  font-weight: 700;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.06)
+  );
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: translateX(4px);
+}
+
+.menuLink.active::after,
+.menuLink[aria-current='page']::after {
+  height: 100%;
+  background: linear-gradient(90deg, #fbbf24, #f97316);
+  border-radius: 10px;
+  opacity: 0.36;
+}
+
+.menuLink:focus-visible,
+.createLink:focus-visible {
+  outline: 3px solid rgba(99, 102, 241, 0.18);
+  outline-offset: 2px;
+  border-radius: 10px;
 }
 
 .menuLink {
