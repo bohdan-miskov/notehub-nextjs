@@ -12,7 +12,7 @@ export default function SearchBox({ search, setSearch }: Props) {
   const [queryDebounce] = useDebounce(query, 500);
 
   useEffect(() => {
-    setSearch(queryDebounce.trim().toLowerCase());
+    setSearch(queryDebounce);
   }, [queryDebounce, setSearch]);
 
   function onChange(e: ChangeEvent<HTMLInputElement>) {

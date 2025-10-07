@@ -19,6 +19,8 @@ type NoteResponse = {
 };
 
 export async function getNotes(params: NotesSearchParams = {}) {
+  params.search = params?.search?.trim().toLowerCase();
+
   if (params.search === '') {
     delete params.search;
   }
