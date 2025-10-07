@@ -45,7 +45,7 @@ export default async function NotePreview({ params }: Props) {
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NoteDetailsModalClient isOpen={true} />
+      <NoteDetailsModalClient />
     </HydrationBoundary>
   );
 }

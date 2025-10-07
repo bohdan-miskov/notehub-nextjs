@@ -17,6 +17,7 @@ export function SelectField({ name, options, className }: SelectFieldProps) {
 
   return (
     <Select<Option>
+      instanceId="tag-select"
       inputId={name}
       name={name}
       className={className}

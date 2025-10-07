@@ -1,21 +1,42 @@
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+'use client';
+
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './NoteForm.module.css';
 import { NoteCreatePayload } from '@/types/note';
 import { TAG, TAGS_ARRAY } from '@/constants';
 import { SelectField } from '../FormikSelectField/FormikSelectField';
 import { noteSchema } from './NoteForm.validation';
+import { createNote } from '@/lib/api';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
-type Props = {
-  onClose: () => void;
-  handleCreateNote: (values: NoteCreatePayload) => Promise<void>;
-  handleResetPagination: () => void;
-};
+// type Props = {
+//   onClose: () => void;
+//   handleCreateNote: (values: NoteCreatePayload) => Promise<void>;
+// };
 
-export default function NoteForm({
-  onClose,
-  handleCreateNote,
-  handleResetPagination,
-}: Props) {
+export default function NoteForm() {
+  const router = useRouter();
+  const { mutate } = useMutation({
+    mutationFn: createNote,
+    onSuccess: () => {
+      router.push('/notes/filter/all');
+    },
+  });
+
+  // function handleSubmit(formData: FormData) {
+  //   const values = Object.fromEntries(formData) as NoteCreatePayload;
+  //   mutate(values);
+  // }
+
+  const handleSubmit = async (values: NoteCreatePayload) => {
+    mutate(values);
+  };
+
+  function onClose() {
+    router.push('/notes/filter/all');
+  }
+
   const tagOptions = TAGS_ARRAY.map(tag => {
     return { label: tag, value: tag };
   });
@@ -23,16 +44,6 @@ export default function NoteForm({
     title: '',
     content: '',
     tag: TAG.Todo,
-  };
-
-  const handleSubmit = async (
-    values: NoteCreatePayload,
-    { resetForm }: FormikHelpers<NoteCreatePayload>
-  ) => {
-    await handleCreateNote(values);
-    resetForm();
-    handleResetPagination();
-    onClose();
   };
 
   return (
