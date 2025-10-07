@@ -1,6 +1,6 @@
 import NoteListClient from '@/components/NoteListClient/NoteListClient';
-import { TAG, TAGS_ARRAY } from '@/constants';
 import { getNotes } from '@/lib/api';
+import { parseTagFromArray } from '@/utils/parseTag';
 import {
   dehydrate,
   HydrationBoundary,
@@ -11,12 +11,21 @@ type Props = {
   params: Promise<{ slug: string[] }>;
 };
 
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const tag = parseTagFromArray(slug) ?? 'all';
+  return {
+    title: tag === 'all' ? 'All Notes' : `Notes – ${tag}`,
+    description:
+      tag === 'all'
+        ? 'View and manage all your saved notes in one place.'
+        : `Browse notes tagged with "${tag}".`,
+  };
+}
+
 export default async function NoteListPage({ params }: Props) {
   const { slug } = await params;
-
-  const tag = TAGS_ARRAY.includes(slug[0] as TAG)
-    ? (slug[0] as TAG)
-    : undefined;
+  const tag = parseTagFromArray(slug);
   const searchParams = tag ? { tag } : undefined;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({

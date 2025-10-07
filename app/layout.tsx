@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'NoteHub',
+  title: 'Note Hub',
   description:
     'Create, organize, and manage your notes effortlessly with our secure online note-taking app. Access your notes from anywhere, stay organized, and keep your ideas, tasks, and reminders in one convenient place.',
   icons: {
