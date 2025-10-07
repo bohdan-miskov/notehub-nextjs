@@ -10,6 +10,15 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
+export async function generateMetadata({ params }: Props) {
+  const { id } = await params;
+  const note = await getNoteById(id);
+  return {
+    title: note.title,
+    description: note.content.slice(0, 30),
+  };
+}
+
 export default async function NoteDetailsPage({ params }: Props) {
   const { id } = await params;
 
