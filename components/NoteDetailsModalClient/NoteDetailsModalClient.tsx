@@ -7,14 +7,10 @@ import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getNoteById } from '@/lib/api';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
+import { useState } from 'react';
 
-type Props = {
-  isOpen: boolean;
-};
-
-export default function NoteDetailsModalClient(
-  { isOpen }: Props = { isOpen: true }
-) {
+export default function NoteDetailsModalClient() {
+  const [isOpen, setIsOpen] = useState(true);
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const {
@@ -28,7 +24,8 @@ export default function NoteDetailsModalClient(
   });
 
   function onClose() {
-    router.back();
+    setIsOpen(false);
+    setTimeout(() => router.back(), 300);
   }
 
   if (isLoading) return <FullScreenLoader text="Note loading ..." />;
