@@ -2,9 +2,9 @@
   position: fixed;
   top: 80px;
   left: 16px;
-  width: 90px; /* скручена ширина */
-  height: 60px;
-  max-height: calc(100vh * 0.75);
+  width: 90px;
+  max-height: 60px;
+
   padding: 1rem 0.5rem;
   background: rgba(30, 30, 50, 0.25);
   backdrop-filter: blur(14px);
@@ -19,7 +19,7 @@
 
 .sidebarContainer:hover {
   width: 200px; /* розкривається */
-  height: 100%;
+  max-height: calc(100vh * 0.75);
   background: rgba(30, 30, 50, 0.95); /* стає більш видимим */
   padding: 1rem 1rem;
 }
