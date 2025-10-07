@@ -29,7 +29,7 @@
 .menuList {
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
+  left: -50%;
   background: rgba(30, 30, 50, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 12px;
