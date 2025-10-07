@@ -6,6 +6,7 @@ export default function SidebarNotes() {
   return (
     <div className={css.sidebarContainer}>
       <h2 className={css.sidebarTitle}>Tags</h2>
+      <Link href="/notes/action/create">Create note</Link>
       <ul className={css.menuList}>
         {['all', ...TAGS_ARRAY].map((tag, index) => (
           <li className={css.menuItem} key={`tags-menu-item-${index}`}>
