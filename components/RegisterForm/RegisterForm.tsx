@@ -52,7 +52,7 @@ export default function RegisterForm() {
         onSubmit={handleSubmit}
         validationSchema={registerSchema}
       >
-        <Form>
+        <Form className={css.form}>
           <label className={css.label} htmlFor="username">
             Username
           </label>
@@ -97,7 +97,9 @@ export default function RegisterForm() {
             component="span"
           />
 
-          <button type="submit">Register</button>
+          <button className={css.btn} type="submit">
+            Register
+          </button>
         </Form>
       </Formik>
       {isLoading && <FullScreenLoader text="Registration..." />}
