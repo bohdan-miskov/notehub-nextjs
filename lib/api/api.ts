@@ -5,4 +5,5 @@ export const nextServer = axios.create({
   headers: {
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
   },
+  withCredentials: true,
 });
