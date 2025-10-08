@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
-import { api, ApiError } from '../../api';
-import { UserProfile } from '@/types/auth';
+import { api } from '../../api';
+import { ApiError, UserProfile } from '@/types/auth';
+import {
+  parseApiErrorMessage,
+  parseApiErrorStatus,
+} from '@/utils/parseApiError';
 
 export async function GET() {
   try {
@@ -9,11 +13,9 @@ export async function GET() {
   } catch (error) {
     return NextResponse.json(
       {
-        error:
-          (error as ApiError).response?.data?.error ??
-          (error as ApiError).message,
+        error: parseApiErrorMessage(error as ApiError),
       },
-      { status: (error as ApiError).status }
+      { status: parseApiErrorStatus(error as ApiError) }
     );
   }
 }
@@ -25,11 +27,9 @@ export async function PATCH() {
   } catch (error) {
     return NextResponse.json(
       {
-        error:
-          (error as ApiError).response?.data?.error ??
-          (error as ApiError).message,
+        error: parseApiErrorMessage(error as ApiError),
       },
-      { status: (error as ApiError).status }
+      { status: parseApiErrorStatus(error as ApiError) }
     );
   }
 }
