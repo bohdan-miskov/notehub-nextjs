@@ -1,20 +1,11 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Roboto } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -60,13 +51,15 @@ export default function RootLayout({
       <body className={roboto.variable}>
         <div id="__next">
           <TanStackProvider>
-            <Header />
-            <main>
-              {children}
-              {modal}
-            </main>
-            <Footer />
-            <div id="modal-root"></div>
+            <AuthProvider>
+              <Header />
+              <main>
+                {children}
+                {modal}
+              </main>
+              <Footer />
+              <div id="modal-root"></div>
+            </AuthProvider>
           </TanStackProvider>
         </div>
       </body>
