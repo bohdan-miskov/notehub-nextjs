@@ -1,22 +1,18 @@
 import {
   Note,
   NoteCreatePayload,
+  NoteResponse,
   NotesSearchParams,
   NoteUpdatePayload,
 } from '@/types/note';
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+axios.defaults.baseURL = process.env.NEXT_ROUTE_HANDLERS_URL;
 
 const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
 const perPage = 12;
-
-type NoteResponse = {
-  notes: Note[];
-  totalPages: number;
-};
 
 export async function getNotes(params: NotesSearchParams = {}) {
   params.search = params?.search?.trim().toLowerCase();
