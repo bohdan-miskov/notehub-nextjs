@@ -28,9 +28,9 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 
   try {
     await api.delete(`/notes/${id}`);
-    NextResponse.json({ message: 'Delete successfully' });
+    return NextResponse.json({ message: 'Delete successfully' });
   } catch (error) {
-    NextResponse.json(
+    return NextResponse.json(
       {
         error:
           (error as ApiError).response?.data.error ??
@@ -49,9 +49,9 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 
   try {
     const { data } = await api.patch<Note>(`/note/${id}`, payload);
-    NextResponse.json(data);
+    return NextResponse.json(data);
   } catch (error) {
-    NextResponse.json(
+    return NextResponse.json(
       {
         error:
           (error as ApiError).response?.data.error ??
