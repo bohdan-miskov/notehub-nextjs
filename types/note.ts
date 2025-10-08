@@ -21,3 +21,8 @@ export type NotesSearchParams = {
   page?: number;
   sortBy?: SortBy;
 };
+
+export type NoteResponse = {
+  notes: Note[];
+  totalPages: number;
+};
