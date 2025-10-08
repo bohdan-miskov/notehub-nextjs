@@ -50,7 +50,7 @@ export default function LoginForm() {
         onSubmit={handleSubmit}
         validationSchema={loginSchema}
       >
-        <Form>
+        <Form className={css.form}>
           <label className={css.label} htmlFor="email">
             Email
           </label>
@@ -79,7 +79,9 @@ export default function LoginForm() {
             component="span"
           />
 
-          <button type="submit">Log in</button>
+          <button className={css.btn} type="submit">
+            Log in
+          </button>
         </Form>
       </Formik>
       {isLoading && <FullScreenLoader text="Logging in..." />}
