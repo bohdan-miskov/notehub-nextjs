@@ -1,0 +1,22 @@
+.authLink:not(.activeLink) {
+  border: 1px solid rgba(64, 51, 201, 0.4);
+  background: rgba(64, 51, 201, 0.3);
+}
+
+.logout {
+  background: linear-gradient(90deg, #f87171, #ef4444);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    filter 0.2s ease,
+    transform 0.2s ease;
+}
+
+.logout:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
