@@ -3,9 +3,9 @@
 import { useParams } from 'next/navigation';
 import css from './NoteDetailsClient.module.css';
 import { useQuery } from '@tanstack/react-query';
-import { getNoteById } from '@/lib/api';
 import { formatDateContent } from '@/utils/formatDate';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
+import { getNoteById } from '@/lib/api/noteApi';
 
 export default function NoteDetailsClient() {
   const { id } = useParams<{ id: string }>();

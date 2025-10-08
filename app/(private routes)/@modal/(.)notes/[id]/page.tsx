@@ -1,6 +1,6 @@
 import NoteDetailsModalClient from '@/components/NoteDetailsModalClient/NoteDetailsModalClient';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
-import { getNoteById } from '@/lib/api';
+import { getNoteById } from '@/lib/api/noteApi';
 import {
   dehydrate,
   HydrationBoundary,
