@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { api, ApiError } from '../../api';
+import { api } from '../../api';
 import { Note } from '@/types/note';
+import { ApiError } from '@/types/auth';
+import {
+  parseApiErrorMessage,
+  parseApiErrorStatus,
+} from '@/utils/parseApiError';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -14,11 +19,9 @@ export async function GET(request: NextRequest, { params }: Props) {
   } catch (error) {
     return NextResponse.json(
       {
-        error:
-          (error as ApiError).response?.data?.error ??
-          (error as ApiError).message,
+        error: parseApiErrorMessage(error as ApiError),
       },
-      { status: (error as ApiError).status }
+      { status: parseApiErrorStatus(error as ApiError) }
     );
   }
 }
@@ -32,12 +35,10 @@ export async function DELETE(request: NextRequest, { params }: Props) {
   } catch (error) {
     return NextResponse.json(
       {
-        error:
-          (error as ApiError).response?.data.error ??
-          (error as ApiError).message,
+        error: parseApiErrorMessage(error as ApiError),
       },
       {
-        status: (error as ApiError).status,
+        status: parseApiErrorStatus(error as ApiError),
       }
     );
   }
@@ -53,12 +54,10 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   } catch (error) {
     return NextResponse.json(
       {
-        error:
-          (error as ApiError).response?.data.error ??
-          (error as ApiError).message,
+        error: parseApiErrorMessage(error as ApiError),
       },
       {
-        status: (error as ApiError).status,
+        status: parseApiErrorStatus(error as ApiError),
       }
     );
   }

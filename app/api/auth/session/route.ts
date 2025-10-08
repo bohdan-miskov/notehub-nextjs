@@ -1,7 +1,12 @@
 import { getAuthCookies, setAuthCookies } from '@/utils/cookieOperations';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { api, ApiError } from '../../api';
+import { api } from '../../api';
+import {
+  parseApiErrorMessage,
+  parseApiErrorStatus,
+} from '@/utils/parseApiError';
+import { ApiError } from '@/types/auth';
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -32,12 +37,10 @@ export async function GET() {
     } catch (error) {
       return NextResponse.json(
         {
-          error:
-            (error as ApiError).response?.data.error &&
-            (error as ApiError).message,
+          error: parseApiErrorMessage(error as ApiError),
         },
         {
-          status: (error as ApiError).status,
+          status: parseApiErrorStatus(error as ApiError),
         }
       );
     }

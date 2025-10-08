@@ -24,7 +24,7 @@ export default function NoteForm() {
     },
   });
 
-  const handleSubmit = async (values: NoteCreatePayload) => {
+  const handleSubmit = (values: NoteCreatePayload) => {
     mutate(values);
   };
 
