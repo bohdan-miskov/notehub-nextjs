@@ -3,9 +3,7 @@ export type User = {
   email: string;
 };
 
-export type UserProfile = {
-  name: string;
-  email: string;
+export type UserProfile = User & {
   avatar: string;
 };
 
