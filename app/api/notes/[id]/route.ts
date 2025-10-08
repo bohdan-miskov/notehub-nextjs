@@ -28,6 +28,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 
   try {
     await api.delete(`/notes/${id}`);
+    NextResponse.json({ message: 'Delete successfully' });
   } catch (error) {
     NextResponse.json(
       {
