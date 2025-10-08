@@ -1,8 +1,7 @@
 'use client';
 
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import css from './RegisterForm.module.css';
-import { useRouter } from 'next/router';
+import css from './LoginForm.module.css';
 import { useAuthStore } from '@/lib/stores/authStore';
 import { ApiError, LoginRequest } from '@/types/auth';
 import { useState } from 'react';
@@ -11,6 +10,7 @@ import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { login } from '@/lib/api/authApi';
 import { loginSchema } from './LoginForm.validation';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const router = useRouter();
