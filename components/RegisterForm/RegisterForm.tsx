@@ -2,7 +2,6 @@
 
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './RegisterForm.module.css';
-import { useRouter } from 'next/router';
 import { useAuthStore } from '@/lib/stores/authStore';
 import { register } from '@/lib/api/authApi';
 import { ApiError, RegisterRequest } from '@/types/auth';
@@ -11,6 +10,7 @@ import { useState } from 'react';
 import { parseApiErrorMessage } from '@/utils/parseApiError';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
   const router = useRouter();

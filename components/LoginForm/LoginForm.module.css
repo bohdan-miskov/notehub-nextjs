@@ -41,6 +41,9 @@ form:hover {
   transition:
     border-color 0.25s ease,
     background 0.25s ease;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .input::placeholder {

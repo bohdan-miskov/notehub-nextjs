@@ -1,5 +1,6 @@
 import LoginForm from '@/components/LoginForm/LoginForm';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
+import css from './page.module.css';
 
 export function generateMetadata() {
   return {
@@ -27,10 +28,27 @@ export function generateMetadata() {
 
 export default function SignIn() {
   return (
-    <section>
-      <div className="container">
-        <h1>Sign in</h1>
-        <LoginForm />
+    <section className={css.section}>
+      <div className={`container ${css.container}`}>
+        <div className={css.wrapper}>
+          <div className={css.textBlock}>
+            <h1 className="visually-hidden">Log in</h1>
+            <p className={css.title}>Welcome back 👋</p>
+            <p className={css.subtitle}>
+              Sign in to your account to continue organizing your thoughts and
+              turning ideas into action.
+            </p>
+          </div>
+
+          <LoginForm />
+
+          <p className={css.registerHint}>
+            Don’t have an account?{' '}
+            <a href="/sign-up" className={css.link}>
+              Create one
+            </a>
+          </p>
+        </div>
       </div>
     </section>
   );
