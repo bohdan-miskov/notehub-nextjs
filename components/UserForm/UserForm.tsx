@@ -1,7 +1,7 @@
 'use client';
 
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import css from './RegisterForm.module.css';
+import css from './UserForm.module.css';
 import { ApiError, UserData } from '@/types/auth';
 import { useState } from 'react';
 import { parseApiErrorMessage } from '@/utils/parseApiError';

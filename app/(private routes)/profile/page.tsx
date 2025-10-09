@@ -44,7 +44,6 @@ export default async function Profile() {
               width={120}
               height={120}
               className={css.avatar}
-              placeholder="blur"
             />
           </div>
 
