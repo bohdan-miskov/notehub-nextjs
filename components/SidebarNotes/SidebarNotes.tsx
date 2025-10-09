@@ -19,7 +19,7 @@ export default function SidebarNotes() {
       </Link>
 
       <ul className={css.menuList}>
-        {['all', ...TAGS_ARRAY].map((tag, index) => (
+        {['All', ...TAGS_ARRAY].map((tag, index) => (
           <li className={css.menuItem} key={`tags-menu-item-${index}`}>
             <ActiveLink
               href={`/notes/filter/${tag}`}

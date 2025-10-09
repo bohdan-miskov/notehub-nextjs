@@ -10,7 +10,7 @@ import { cookies } from 'next/headers';
 export async function GET() {
   const cookieStore = await cookies();
   try {
-    const { data } = await api.get<UserProfile>('/auth/users', {
+    const { data } = await api.get<UserProfile>('/users/me', {
       headers: {
         Cookie: cookieStore.toString(),
       },
@@ -30,7 +30,7 @@ export async function PATCH(request: NextRequest) {
   const payload = request.json();
   const cookieStore = await cookies();
   try {
-    const { data } = await api.patch<UserProfile>('/auth/users', payload, {
+    const { data } = await api.patch<UserProfile>('/users/me', payload, {
       headers: {
         Cookie: cookieStore.toString(),
       },

@@ -11,14 +11,19 @@ import { ApiError } from '@/types/auth';
 export async function POST() {
   const cookieStore = await cookies();
   try {
-    await api.post('auth/logout', {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
+    await api.post(
+      '/auth/logout',
+      {},
+      {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+      }
+    );
     clearAuthCookies(cookieStore);
     return NextResponse.json({ message: 'Logged out successfully' });
   } catch (error) {
+    console.log('🚀 ~ POST ~ error:', error);
     return NextResponse.json(
       {
         error: parseApiErrorMessage(error as ApiError),

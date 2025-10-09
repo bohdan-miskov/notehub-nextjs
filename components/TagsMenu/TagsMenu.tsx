@@ -27,7 +27,7 @@ export default function TagsMenu() {
         Notes ▾
       </button>
       <ul className={clsx(isMenuOpen && css.isOpen, css.menuList)}>
-        {['all', ...TAGS_ARRAY].map((tag, index) => (
+        {['All', ...TAGS_ARRAY].map((tag, index) => (
           <li className={css.menuItem} key={`tags-menu-item-${index}`}>
             <Link href={`/notes/filter/${tag}`} className={css.menuLink}>
               {tag}

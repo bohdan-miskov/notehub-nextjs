@@ -1,10 +1,9 @@
-// middleware.ts
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthCookies, setAuthCookies } from './utils/cookieOperations';
 import { checkServerSession } from './lib/api/serverApi/authApi';
 
-const privateRoutes = ['/profile'];
+const privateRoutes = ['/profile', '/notes'];
 const authRoutes = ['/sign-in', '/sign-up'];
 
 export async function middleware(request: NextRequest) {
@@ -18,39 +17,37 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  if (isPrivateRoute) {
-    if (!accessToken) {
-      if (refreshToken) {
-        const data = await checkServerSession();
-        const setCookie = data.headers['set-cookie'];
+  if (!accessToken) {
+    if (refreshToken) {
+      const data = await checkServerSession();
+      const setCookie = data.headers['set-cookie'];
 
-        if (setCookie) {
-          setAuthCookies(cookieStore, setCookie);
+      if (setCookie) {
+        setAuthCookies(cookieStore, setCookie);
 
-          if (isAuthRoute) {
-            return NextResponse.redirect(new URL('/', request.url), {
-              headers: {
-                Cookie: cookieStore.toString(),
-              },
-            });
-          }
-          if (isPrivateRoute) {
-            return NextResponse.next({
-              headers: {
-                Cookie: cookieStore.toString(),
-              },
-            });
-          }
+        if (isAuthRoute) {
+          return NextResponse.redirect(new URL('/', request.url), {
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
+        }
+        if (isPrivateRoute) {
+          return NextResponse.next({
+            headers: {
+              Cookie: cookieStore.toString(),
+            },
+          });
         }
       }
+    }
 
-      if (isAuthRoute) {
-        return NextResponse.next();
-      }
+    if (isAuthRoute) {
+      return NextResponse.next();
+    }
 
-      if (isPrivateRoute) {
-        return NextResponse.redirect(new URL('/sign-in', request.url));
-      }
+    if (isPrivateRoute) {
+      return NextResponse.redirect(new URL('/sign-in', request.url));
     }
   }
 

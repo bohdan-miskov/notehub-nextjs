@@ -59,7 +59,7 @@ export default function RegisterForm() {
           <Field
             id="username"
             type="text"
-            name="userName"
+            name="username"
             className={css.input}
             required
           />

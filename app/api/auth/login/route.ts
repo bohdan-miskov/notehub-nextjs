@@ -9,7 +9,7 @@ import {
 import { ApiError } from '@/types/auth';
 
 export async function POST(request: NextRequest) {
-  const payload = request.json();
+  const payload = await request.json();
 
   try {
     const response = await api.post('/auth/login', payload);

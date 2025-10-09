@@ -11,10 +11,11 @@ type Props = {
 };
 
 export default function AuthNavigation({ activeClassName }: Props) {
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
 
   async function handleLogout() {
     await logout();
+    clearIsAuthenticated();
   }
 
   return isAuthenticated ? (
