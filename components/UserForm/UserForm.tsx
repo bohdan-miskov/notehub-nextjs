@@ -10,9 +10,11 @@ import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { useRouter } from 'next/navigation';
 import { updateMe } from '@/lib/api/clientApi/userApi';
 import { userSchema } from './UserForm.validation';
+import { useAuthStore } from '@/lib/stores/authStore';
 
 export default function UserForm() {
   const router = useRouter();
+  const user = useAuthStore(state => state.user);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +23,7 @@ export default function UserForm() {
   };
 
   const initialValues: Values = {
-    username: '',
+    username: user?.username ?? '',
   };
 
   async function handleSubmit(values: UserData) {
