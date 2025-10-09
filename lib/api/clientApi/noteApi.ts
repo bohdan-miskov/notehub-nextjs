@@ -1,22 +1,12 @@
+import { PER_PAGE } from '@/constants';
 import {
   Note,
   NoteCreatePayload,
+  NoteResponse,
   NotesSearchParams,
   NoteUpdatePayload,
 } from '@/types/note';
-import axios from 'axios';
-
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
-
-const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
-axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-
-const perPage = 12;
-
-type NoteResponse = {
-  notes: Note[];
-  totalPages: number;
-};
+import { nextServer } from '../api';
 
 export async function getNotes(params: NotesSearchParams = {}) {
   params.search = params?.search?.trim().toLowerCase();
@@ -25,27 +15,27 @@ export async function getNotes(params: NotesSearchParams = {}) {
     delete params.search;
   }
 
-  const response = await axios.get<NoteResponse>('/notes', {
+  const response = await nextServer.get<NoteResponse>('/notes', {
     params: {
       ...params,
-      perPage,
+      PER_PAGE,
     },
   });
   return response.data;
 }
 
 export async function getNoteById(id: string) {
-  const response = await axios.get<Note>(`/notes/${id}`);
+  const response = await nextServer.get<Note>(`/notes/${id}`);
   return response.data;
 }
 
 export async function createNote(payload: NoteCreatePayload) {
-  const response = await axios.post<Note>('/notes', payload);
+  const response = await nextServer.post<Note>('/notes', payload);
   return response.data;
 }
 
 export async function deleteNote(id: string) {
-  await axios.delete(`/notes/${id}`);
+  await nextServer.delete(`/notes/${id}`);
 }
 
 export async function updateNote({
@@ -55,6 +45,6 @@ export async function updateNote({
   payload: NoteUpdatePayload;
   id: string;
 }) {
-  const response = await axios.patch<Note>(`/notes/${id}`, payload);
+  const response = await nextServer.patch<Note>(`/notes/${id}`, payload);
   return response.data;
 }

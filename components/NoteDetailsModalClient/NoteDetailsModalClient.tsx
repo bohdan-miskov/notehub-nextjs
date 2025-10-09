@@ -5,9 +5,9 @@ import css from './NoteDetailsModalClient.module.css';
 import Modal from '../Modal/Modal';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { getNoteById } from '@/lib/api';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { useState } from 'react';
+import { getNoteById } from '@/lib/api/clientApi/noteApi';
 
 export default function NoteDetailsModalClient() {
   const [isOpen, setIsOpen] = useState(true);

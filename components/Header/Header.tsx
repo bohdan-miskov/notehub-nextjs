@@ -2,6 +2,7 @@ import Link from 'next/link';
 import css from './Header.module.css';
 import { ActiveLink } from '../ActiveLink/ActiveLink';
 import TagsMenu from '../TagsMenu/TagsMenu';
+import AuthNavigation from '../AuthNavigation/AuthNavigation';
 
 export default function Header() {
   return (
@@ -20,6 +21,7 @@ export default function Header() {
             <li>
               <TagsMenu />
             </li>
+            <AuthNavigation activeClassName={css.active} />
           </ul>
         </nav>
       </div>

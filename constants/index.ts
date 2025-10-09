@@ -16,3 +16,9 @@ export const OG_IMAGE_URL =
   'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg';
 
 export const NOTE_DRAFT_KEY = 'note-draft';
+
+export const PER_PAGE = 12;
+
+export const ACCESS_TOKEN_KEY = 'accessToken';
+
+export const REFRESH_TOKEN_KEY = 'refreshToken';

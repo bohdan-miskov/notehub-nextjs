@@ -1,6 +1,6 @@
 import NoteListClient from '@/components/NoteListClient/NoteListClient';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
-import { getNotes } from '@/lib/api';
+import { getNotes } from '@/lib/api/clientApi/noteApi';
 import { parseTagFromArray } from '@/utils/parseTag';
 import {
   dehydrate,
@@ -14,17 +14,17 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const tag = parseTagFromArray(slug) ?? 'all';
+  const tag = parseTagFromArray(slug) ?? 'All';
   return {
-    title: tag === 'all' ? 'All Notes' : `Notes – ${tag}`,
+    title: tag === 'All' ? 'All Notes' : `Notes – ${tag}`,
     description:
-      tag === 'all'
+      tag === 'All'
         ? 'View and manage all your saved notes in one place.'
         : `Browse notes tagged with "${tag}".`,
     openGraph: {
-      title: tag === 'all' ? 'All Notes' : `Notes – ${tag}`,
+      title: tag === 'All' ? 'All Notes' : `Notes – ${tag}`,
       description:
-        tag === 'all'
+        tag === 'All'
           ? 'View and manage all your saved notes in one place.'
           : `Browse notes tagged with "${tag}".`,
       url: `${PAGE_BASE_URL}/notes/filter/${tag}`,
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props) {
           url: OG_IMAGE_URL,
           width: 1200,
           height: 630,
-          alt: tag === 'all' ? 'All Notes' : `Notes – ${tag}`,
+          alt: tag === 'All' ? 'All Notes' : `Notes – ${tag}`,
         },
       ],
       type: 'article',

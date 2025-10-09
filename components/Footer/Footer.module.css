@@ -1,10 +1,15 @@
 .footer {
   padding: 24px 16px;
-  background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+  background: linear-gradient(
+    180deg,
+    #0f172a 0%,
+    #1e293b 100%
+  ); /* темно-синій градієнт */
   text-align: center;
   font-size: 14px;
-  color: #475569;
-  border-top: 1px solid #e2e8f0;
+  color: #cbd5e1; /* світло-сірий текст */
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 -2px 10px rgba(30, 58, 138, 0.2);
 }
 
 .content {
@@ -21,14 +26,15 @@
 }
 
 .footer a {
-  color: #3b82f6; /* сучасний синій відтінок */
+  color: #60a5fa; /* яскраво-блакитний */
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .footer a:hover {
-  color: #1d4ed8;
+  color: #93c5fd;
+  text-shadow: 0 0 6px rgba(147, 197, 253, 0.4);
   text-decoration: underline;
 }
 
