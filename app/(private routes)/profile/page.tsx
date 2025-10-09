@@ -2,6 +2,7 @@ import { getServerMe } from '@/lib/api/serverApi/userApi';
 import Link from 'next/link';
 import css from './page.module.css';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
+import Image from 'next/image';
 
 export function generateMetadata() {
   return {
@@ -36,17 +37,30 @@ export default async function Profile() {
         <h1 className={css.title}>My Profile</h1>
 
         <div className={css.card}>
-          <h2 className={css.subtitle}>Account Information</h2>
-          <p className={css.field}>
-            <span className={css.label}>Username:</span> {user.username}
-          </p>
-          <p className={css.field}>
-            <span className={css.label}>Email:</span> {user.email}
-          </p>
+          <div className={css.avatarWrapper}>
+            <Image
+              src={user.avatar ?? '/default-avatar.svg'}
+              alt={`${user.username}'s avatar`}
+              width={120}
+              height={120}
+              className={css.avatar}
+              placeholder="blur"
+            />
+          </div>
 
-          <Link href="/profile/edit" className={css.editBtn}>
-            Edit Profile
-          </Link>
+          <div className={css.info}>
+            <h2 className={css.subtitle}>Account Information</h2>
+            <p className={css.field}>
+              <span className={css.label}>Username:</span> {user.username}
+            </p>
+            <p className={css.field}>
+              <span className={css.label}>Email:</span> {user.email}
+            </p>
+
+            <Link href="/profile/edit" className={css.editBtn}>
+              Edit Profile
+            </Link>
+          </div>
         </div>
       </div>
     </section>
