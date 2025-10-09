@@ -6,7 +6,7 @@ import {
   NotesSearchParams,
   NoteUpdatePayload,
 } from '@/types/note';
-import { nextServer } from './api';
+import { nextServer } from '../api';
 
 export async function getNotes(params: NotesSearchParams = {}) {
   params.search = params?.search?.trim().toLowerCase();

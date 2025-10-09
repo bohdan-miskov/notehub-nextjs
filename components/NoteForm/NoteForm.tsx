@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useNoteDraftStore } from '@/lib/stores/noteStore';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
-import { createNote } from '@/lib/api/noteApi';
+import { createNote } from '@/lib/api/clientApi/noteApi';
 
 export default function NoteForm() {
   const router = useRouter();

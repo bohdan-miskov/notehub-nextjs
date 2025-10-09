@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { NotesSearchParams } from '@/types/note';
 import Link from 'next/link';
-import { deleteNote, getNotes } from '@/lib/api/noteApi';
+import { deleteNote, getNotes } from '@/lib/api/clientApi/noteApi';
 
 type Props = {
   searchParams: NotesSearchParams | undefined;

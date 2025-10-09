@@ -1,6 +1,6 @@
 import NoteListClient from '@/components/NoteListClient/NoteListClient';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
-import { getNotes } from '@/lib/api/noteApi';
+import { getNotes } from '@/lib/api/clientApi/noteApi';
 import { parseTagFromArray } from '@/utils/parseTag';
 import {
   dehydrate,

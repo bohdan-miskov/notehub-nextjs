@@ -3,7 +3,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './RegisterForm.module.css';
 import { useAuthStore } from '@/lib/stores/authStore';
-import { register } from '@/lib/api/authApi';
+import { register } from '@/lib/api/clientApi/authApi';
 import { ApiError, RegisterRequest } from '@/types/auth';
 import { registerSchema } from './RegisterForm.validation';
 import { useState } from 'react';
