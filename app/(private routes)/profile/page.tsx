@@ -1,6 +1,31 @@
 import { getServerMe } from '@/lib/api/serverApi/userApi';
 import Link from 'next/link';
 import css from './page.module.css';
+import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
+
+export function generateMetadata() {
+  return {
+    title: 'My Profile — NoteHub',
+    description:
+      'View your personal profile on NoteHub — see your account details, manage your settings, and explore your notes in one place.',
+    openGraph: {
+      title: 'My Profile — NoteHub',
+      description:
+        'Manage your profile and personal settings on NoteHub — your modern space for ideas and organization.',
+      url: `${PAGE_BASE_URL}/profile`,
+      siteName: 'NoteHub',
+      images: [
+        {
+          url: OG_IMAGE_URL,
+          width: 1200,
+          height: 630,
+          alt: 'My Profile — NoteHub',
+        },
+      ],
+      type: 'article',
+    },
+  };
+}
 
 export default async function Profile() {
   const user = await getServerMe();
