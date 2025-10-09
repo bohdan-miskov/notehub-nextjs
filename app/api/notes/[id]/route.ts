@@ -6,6 +6,7 @@ import {
   parseApiErrorMessage,
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
+import { cookies } from 'next/headers';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -13,8 +14,13 @@ type Props = {
 
 export async function GET(request: NextRequest, { params }: Props) {
   const { id } = await params;
+  const cookieStore = await cookies();
   try {
-    const { data } = await api.get<Note>(`/notes/${id}`);
+    const { data } = await api.get<Note>(`/notes/${id}`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
@@ -28,9 +34,13 @@ export async function GET(request: NextRequest, { params }: Props) {
 
 export async function DELETE(request: NextRequest, { params }: Props) {
   const { id } = await params;
-
+  const cookieStore = await cookies();
   try {
-    await api.delete(`/notes/${id}`);
+    await api.delete(`/notes/${id}`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
     return NextResponse.json({ message: 'Delete successfully' });
   } catch (error) {
     return NextResponse.json(
@@ -47,9 +57,13 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 export async function PATCH(request: NextRequest, { params }: Props) {
   const { id } = await params;
   const payload = request.json();
-
+  const cookieStore = await cookies();
   try {
-    const { data } = await api.patch<Note>(`/note/${id}`, payload);
+    const { data } = await api.patch<Note>(`/note/${id}`, payload, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
