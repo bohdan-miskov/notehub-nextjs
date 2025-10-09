@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { updateMe } from '@/lib/api/clientApi/userApi';
 import { userSchema } from './UserForm.validation';
 import { useAuthStore } from '@/lib/stores/authStore';
+import clsx from 'clsx';
 
 export default function UserForm() {
   const router = useRouter();
@@ -40,6 +41,10 @@ export default function UserForm() {
     }
   }
 
+  function handleCancel() {
+    router.push('/profile');
+  }
+
   return (
     <>
       <Formik
@@ -64,9 +69,18 @@ export default function UserForm() {
             component="span"
           />
 
-          <button className={css.btn} type="submit">
-            Update
-          </button>
+          <div className={css.btnsContainer}>
+            <button
+              className={clsx(css.btn, css.cancel)}
+              type="button"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+            <button className={clsx(css.btn, css.submit)} type="submit">
+              Update
+            </button>
+          </div>
         </Form>
       </Formik>
       {isLoading && <FullScreenLoader text="Saving..." />}

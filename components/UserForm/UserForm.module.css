@@ -16,7 +16,7 @@
     box-shadow 0.3s ease;
 }
 
-form:hover {
+.form:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
 }
@@ -74,14 +74,63 @@ form:hover {
   transition: all 0.3s ease;
 }
 
-button:hover {
+.btn:hover {
   background: linear-gradient(90deg, #2563eb, #4f46e5);
   transform: translateY(-1px);
 }
 
-button:active {
+.btn:active {
   transform: translateY(1px);
   opacity: 0.95;
+}
+
+.btnsContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit {
+  color: #fff;
+  background: linear-gradient(90deg, #3b82f6, #6366f1);
+  border: none;
+}
+
+.submit:hover {
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  transform: translateY(-1px);
+}
+
+.submit:active {
+  transform: translateY(1px);
+  opacity: 0.95;
+}
+
+/* Cancel */
+.cancel {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.cancel:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.cancel:active {
+  transform: translateY(1px);
+  opacity: 0.9;
 }
 
 @media (max-width: 500px) {
