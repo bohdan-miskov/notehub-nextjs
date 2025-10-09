@@ -6,16 +6,20 @@ import {
   parseApiErrorMessage,
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
+import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
   const tag = request.nextUrl.searchParams.get('tag');
   const search = request.nextUrl.searchParams.get('search');
-
+  const cookieStore = await cookies();
   try {
     const { data } = await api.get<NoteResponse>('/notes', {
       params: {
         tag,
         search,
+      },
+      headers: {
+        Cookie: cookieStore.toString(),
       },
     });
     return NextResponse.json(data);
@@ -31,9 +35,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const payload = request.json();
-
+  const cookieStore = await cookies();
   try {
-    const { data } = await api.post<Note>('/notes', payload);
+    const { data } = await api.post<Note>('/notes', payload, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
