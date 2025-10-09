@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const nextServer = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.NEXT_PUBLIC_HANDLERS_URL,
   withCredentials: true,
 });
