@@ -46,5 +46,6 @@ export async function updateNote({
   id: string;
 }) {
   const response = await nextServer.patch<Note>(`/notes/${id}`, payload);
+
   return response.data;
 }
