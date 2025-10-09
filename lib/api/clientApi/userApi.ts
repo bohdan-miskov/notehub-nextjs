@@ -1,5 +1,5 @@
 import { User, UserProfile } from '@/types/auth';
-import { nextServer } from './api';
+import { nextServer } from '../api';
 
 export async function getMe() {
   const response = await nextServer.get<UserProfile>('/users/me');

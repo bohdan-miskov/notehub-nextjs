@@ -1,14 +1,20 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../../api';
 import { ApiError, UserProfile } from '@/types/auth';
 import {
   parseApiErrorMessage,
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
+import { cookies } from 'next/headers';
 
 export async function GET() {
+  const cookieStore = await cookies();
   try {
-    const { data } = await api.get<UserProfile>('/auth/users');
+    const { data } = await api.get<UserProfile>('/auth/users', {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
@@ -20,9 +26,15 @@ export async function GET() {
   }
 }
 
-export async function PATCH() {
+export async function PATCH(request: NextRequest) {
+  const payload = request.json();
+  const cookieStore = await cookies();
   try {
-    const { data } = await api.patch<UserProfile>('/auth/users');
+    const { data } = await api.patch<UserProfile>('/auth/users', payload, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(

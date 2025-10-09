@@ -1,5 +1,5 @@
 import { LoginRequest, RegisterRequest, User } from '@/types/auth';
-import { nextServer } from './api';
+import { nextServer } from '../api';
 
 export async function register(payload: RegisterRequest) {
   const response = await nextServer.post<User>('/auth/register', payload);

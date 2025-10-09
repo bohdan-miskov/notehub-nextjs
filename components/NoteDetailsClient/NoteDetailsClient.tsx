@@ -5,7 +5,7 @@ import css from './NoteDetailsClient.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { formatDateContent } from '@/utils/formatDate';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
-import { getNoteById } from '@/lib/api/noteApi';
+import { getNoteById } from '@/lib/api/clientApi/noteApi';
 
 export default function NoteDetailsClient() {
   const { id } = useParams<{ id: string }>();

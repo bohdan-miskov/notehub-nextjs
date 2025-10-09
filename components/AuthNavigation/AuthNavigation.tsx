@@ -1,6 +1,6 @@
 'use client';
 
-import { logout } from '@/lib/api/authApi';
+import { logout } from '@/lib/api/clientApi/authApi';
 import { useAuthStore } from '@/lib/stores/authStore';
 import css from './AuthNavigation.module.css';
 import { ActiveLink } from '../ActiveLink/ActiveLink';

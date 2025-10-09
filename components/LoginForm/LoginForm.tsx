@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { parseApiErrorMessage } from '@/utils/parseApiError';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
-import { login } from '@/lib/api/authApi';
+import { login } from '@/lib/api/clientApi/authApi';
 import { loginSchema } from './LoginForm.validation';
 import { useRouter } from 'next/navigation';
 
