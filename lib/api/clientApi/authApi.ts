@@ -2,7 +2,10 @@ import { LoginRequest, RegisterRequest, User } from '@/types/auth';
 import { nextServer } from '../api';
 
 export async function register(payload: RegisterRequest) {
-  const response = await nextServer.post<User>('/auth/register', payload);
+  const response = await nextServer.post<User>('/auth/register', {
+    email: payload.email,
+    password: payload.password,
+  });
   return response.data;
 }
 

@@ -11,7 +11,6 @@ import { ApiError } from '@/types/auth';
 export async function GET() {
   const cookieStore = await cookies();
   const { accessToken, refreshToken } = getAuthCookies(cookieStore);
-
   if (accessToken) {
     return NextResponse.json({ success: true });
   }

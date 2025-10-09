@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const payload = request.json();
+  const payload = await request.json();
   const cookieStore = await cookies();
   try {
     const { data } = await api.post<Note>('/notes', payload, {

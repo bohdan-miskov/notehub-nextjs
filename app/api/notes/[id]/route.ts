@@ -56,7 +56,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 
 export async function PATCH(request: NextRequest, { params }: Props) {
   const { id } = await params;
-  const payload = request.json();
+  const payload = await request.json();
   const cookieStore = await cookies();
   try {
     const { data } = await api.patch<Note>(`/note/${id}`, payload, {
