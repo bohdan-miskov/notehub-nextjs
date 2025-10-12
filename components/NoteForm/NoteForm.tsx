@@ -2,31 +2,67 @@
 
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './NoteForm.module.css';
-import { NoteCreatePayload } from '@/types/note';
-import { TAGS_ARRAY } from '@/constants';
+import { Note, NoteCreatePayload } from '@/types/note';
+import { TAG, TAGS_ARRAY } from '@/constants';
 import { SelectField } from '../FormikSelectField/FormikSelectField';
 import { noteSchema } from './NoteForm.validation';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useNoteDraftStore } from '@/lib/stores/noteStore';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
-import { createNote } from '@/lib/api/clientApi/noteApi';
+import { createNote, updateNote } from '@/lib/api/clientApi/noteApi';
 
-export default function NoteForm() {
+type Props = {
+  note?: Note;
+};
+
+export default function NoteForm({ note }: Props) {
   const router = useRouter();
   const { draft, hasHydrated, setDraft, clearDraft } = useNoteDraftStore();
 
   const { mutate } = useMutation({
-    mutationFn: createNote,
+    mutationFn: (
+      data: NoteCreatePayload | { id: string; payload: NoteCreatePayload }
+    ) => {
+      if ('id' in data) {
+        return updateNote(data);
+      }
+      return createNote(data as NoteCreatePayload);
+    },
     onSuccess: () => {
       clearDraft();
-      router.push('/notes/filter/all');
+      router.replace(`/notes/filter/all`);
     },
   });
 
-  const handleSubmit = (values: NoteCreatePayload) => {
-    mutate(values);
+  type InitialValues = {
+    title: string;
+    content: string;
+    tag: TAG;
   };
+
+  const initialValues: InitialValues = note
+    ? {
+        title: note.title,
+        content: note.content,
+        tag: note.tag,
+      }
+    : draft;
+
+  function handleSubmit(values: NoteCreatePayload) {
+    if (note) {
+      mutate({ payload: values, id: note.id });
+      return;
+    } else {
+      mutate(values);
+    }
+  }
+
+  function handleSetDraft(values: NoteCreatePayload) {
+    if (!note) {
+      setDraft(values);
+    }
+  }
 
   function onClose() {
     router.push('/notes/filter/all');
@@ -40,14 +76,15 @@ export default function NoteForm() {
 
   return (
     <Formik
-      initialValues={draft}
+      initialValues={initialValues}
       validationSchema={noteSchema}
       onSubmit={handleSubmit}
     >
       {({ values, handleChange }) => {
         function onChange(e: React.ChangeEvent<HTMLInputElement>) {
           handleChange(e);
-          setDraft({ ...values, [e.target.name]: e.target.value });
+
+          handleSetDraft({ ...values, [e.target.name]: e.target.value });
         }
         return (
           <Form className={css.form}>
@@ -99,7 +136,7 @@ export default function NoteForm() {
                 options={tagOptions}
                 className={css.select}
                 onChange={value =>
-                  setDraft({ ...values, tag: value ?? TAGS_ARRAY[0] })
+                  handleSetDraft({ ...values, tag: value ?? TAGS_ARRAY[0] })
                 }
               />
               <ErrorMessage name="tag" className={css.error} component="span" />
@@ -118,7 +155,7 @@ export default function NoteForm() {
                 className={css.submitButton}
                 disabled={false}
               >
-                Create note
+                {note ? 'Update note' : 'Create note'}
               </button>
             </div>
           </Form>

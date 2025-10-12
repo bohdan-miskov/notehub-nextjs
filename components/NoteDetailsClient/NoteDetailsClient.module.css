@@ -65,6 +65,42 @@
   text-align: center;
 }
 
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.editButton,
+.deleteButton {
+  padding: 6px 14px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.editButton {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.editButton:hover {
+  background-color: #2563eb;
+}
+
+.deleteButton {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.deleteButton:hover {
+  background-color: #b91c1c;
+}
+
 /* Адаптивність */
 @media (max-width: 600px) {
   .container {
@@ -78,5 +114,15 @@
 
   .content {
     font-size: 15px;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+
+  .editButton,
+  .deleteButton {
+    padding: 5px 10px;
+    font-size: 13px;
   }
 }
