@@ -5,6 +5,7 @@ import { useAuthStore } from '@/lib/stores/authStore';
 import css from './AuthNavigation.module.css';
 import { ActiveLink } from '../ActiveLink/ActiveLink';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   activeClassName?: string;
@@ -12,10 +13,12 @@ type Props = {
 
 export default function AuthNavigation({ activeClassName }: Props) {
   const { isAuthenticated, clearIsAuthenticated } = useAuthStore();
+  const router = useRouter();
 
   async function handleLogout() {
     await logout();
     clearIsAuthenticated();
+    router.push('/');
   }
 
   return isAuthenticated ? (

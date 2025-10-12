@@ -51,6 +51,7 @@
     transform 0.2s ease;
   padding: 8px 12px;
   border-radius: 6px;
+  text-align: center;
 }
 
 .navigation > li > a:hover {
