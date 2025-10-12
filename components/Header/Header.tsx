@@ -18,9 +18,9 @@ export default function Header() {
                 Home
               </ActiveLink>
             </li>
-            <li>
-              <TagsMenu />
-            </li>
+
+            <TagsMenu />
+
             <AuthNavigation activeClassName={css.active} />
           </ul>
         </nav>

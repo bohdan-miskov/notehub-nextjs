@@ -1,6 +1,7 @@
 import NoteDetailsModalClient from '@/components/NoteDetailsModalClient/NoteDetailsModalClient';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
 import { getNoteById } from '@/lib/api/clientApi/noteApi';
+import { getNoteByIdServer } from '@/lib/api/serverApi/noteApi';
 import {
   dehydrate,
   HydrationBoundary,
@@ -13,7 +14,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
-  const note = await getNoteById(id);
+  const note = await getNoteByIdServer(id);
   return {
     title: note.title,
     description: note.content.slice(0, 30),

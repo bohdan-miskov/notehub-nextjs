@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../../api';
-import { ApiError, UserProfile } from '@/types/auth';
+import { UserProfile } from '@/types/auth';
 import {
   parseApiErrorMessage,
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
 import { cookies } from 'next/headers';
+import { ApiError } from '@/types/api';
 
 export async function GET() {
   const cookieStore = await cookies();

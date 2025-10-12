@@ -1,4 +1,4 @@
-import { ApiError } from '@/types/auth';
+import { ApiError } from '@/types/api';
 
 export function parseApiErrorMessage(error: ApiError) {
   return error.response?.data?.error ?? error.message ?? 'Oops... some error';

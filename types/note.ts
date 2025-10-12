@@ -11,7 +11,7 @@ export type Note = {
 
 export type NoteCreatePayload = Pick<Note, 'title' | 'content' | 'tag'>;
 
-export type NoteUpdatePayload = Partial<NoteCreatePayload>;
+export type NoteUpdatePayload = NoteCreatePayload;
 
 type SortBy = 'created' | 'updated';
 

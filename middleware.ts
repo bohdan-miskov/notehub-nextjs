@@ -11,12 +11,10 @@ export async function middleware(request: NextRequest) {
   const { accessToken, refreshToken } = getAuthCookies(cookieStore);
 
   const { pathname } = request.nextUrl;
-
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
   const isPrivateRoute = privateRoutes.some(route =>
     pathname.startsWith(route)
   );
-
   if (!accessToken) {
     if (refreshToken) {
       const data = await checkServerSession();
@@ -61,5 +59,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile/:path*', '/sign-in', '/sign-up'],
+  matcher: ['/profile/:path*', '/sign-in', '/sign-up', '/notes/:path*'],
 };

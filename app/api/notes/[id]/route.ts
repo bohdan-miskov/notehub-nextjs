@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../../api';
 import { Note } from '@/types/note';
-import { ApiError } from '@/types/auth';
+import { ApiError } from '@/types/api';
 import {
   parseApiErrorMessage,
   parseApiErrorStatus,
@@ -59,7 +59,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   const payload = await request.json();
   const cookieStore = await cookies();
   try {
-    const { data } = await api.patch<Note>(`/note/${id}`, payload, {
+    const { data } = await api.patch<Note>(`/notes/${id}`, payload, {
       headers: {
         Cookie: cookieStore.toString(),
       },

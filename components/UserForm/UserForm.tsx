@@ -2,9 +2,8 @@
 
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './UserForm.module.css';
-import { ApiError, UserData } from '@/types/auth';
+import { UserData } from '@/types/auth';
 import { useState } from 'react';
-import { parseApiErrorMessage } from '@/utils/parseApiError';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { useRouter } from 'next/navigation';
@@ -12,12 +11,20 @@ import { updateMe } from '@/lib/api/clientApi/userApi';
 import { userSchema } from './UserForm.validation';
 import { useAuthStore } from '@/lib/stores/authStore';
 import clsx from 'clsx';
+import { ErrorResponse } from '@/types/api';
+import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 export default function UserForm() {
   const router = useRouter();
   const user = useAuthStore(state => state.user);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const errorMessages = {
+    ...ERROR_MESSAGES,
+  };
 
   type Values = {
     username: string;
@@ -30,12 +37,14 @@ export default function UserForm() {
   async function handleSubmit(values: UserData) {
     try {
       setIsLoading(true);
+      setError(null);
       const user = await updateMe(values);
       if (user) {
+        setSuccessMessage('Successfully updated !');
         router.push('/profile');
       }
     } catch (error) {
-      setError(parseApiErrorMessage(error as ApiError));
+      setError(error as ErrorResponse);
     } finally {
       setIsLoading(false);
     }
@@ -84,7 +93,14 @@ export default function UserForm() {
         </Form>
       </Formik>
       {isLoading && <FullScreenLoader text="Saving..." />}
-      {error && !isLoading && <ErrorToastMessage>{error}</ErrorToastMessage>}
+      {error && !isLoading && (
+        <ErrorToastMessage>
+          {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
+        </ErrorToastMessage>
+      )}
+      {successMessage && !isLoading && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
+      )}
     </>
   );
 }
