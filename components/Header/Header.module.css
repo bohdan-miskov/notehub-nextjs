@@ -66,9 +66,27 @@
   }
 
   .navigation {
-    flex-direction: column;
+    max-height: 100px;
+    display: grid;
+    grid-template-areas:
+      'a c'
+      'b d';
+    /* max-width: 150px; */
     gap: 0.75rem;
     align-items: center;
+  }
+
+  .navigation :nth-child(1) {
+    grid-area: a;
+  }
+  .navigation :nth-child(2) {
+    grid-area: b;
+  }
+  .navigation :nth-last-child(2) {
+    grid-area: c;
+  }
+  .navigation :last-child {
+    grid-area: d;
   }
 }
 
@@ -79,6 +97,10 @@
 
   .headerContainer {
     padding: 0;
+  }
+
+  .header a {
+    font-size: 1.2rem;
   }
 }
 

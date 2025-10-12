@@ -3,6 +3,7 @@
 @import '../styles/container.css';
 
 body {
+  position: relative;
   font-family: var(--font-roboto), sans-serif;
   margin: 0;
   background-color: #f8f9fa;

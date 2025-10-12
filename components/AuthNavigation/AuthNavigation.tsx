@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default function AuthNavigation({ activeClassName }: Props) {
-  const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
+  const { isAuthenticated, clearIsAuthenticated } = useAuthStore();
 
   async function handleLogout() {
     await logout();
@@ -19,12 +19,23 @@ export default function AuthNavigation({ activeClassName }: Props) {
   }
 
   return isAuthenticated ? (
-    <li>
-      <p>{user?.username}</p>
-      <button className={css.logout} onClick={handleLogout}>
-        Logout
-      </button>
-    </li>
+    <>
+      <li>
+        <ActiveLink
+          href="/profile"
+          className={css.authLink}
+          activeClassName={clsx(activeClassName, css.activeLink)}
+        >
+          Profile
+        </ActiveLink>
+      </li>
+      <li>
+        {/* <p>{user?.username}</p> */}
+        <button className={css.logout} onClick={handleLogout}>
+          Logout
+        </button>
+      </li>
+    </>
   ) : (
     <>
       <li>
