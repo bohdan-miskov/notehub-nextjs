@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../../api';
 import { Note } from '@/types/note';
-import { ApiError } from '@/types/auth';
+import { ApiError } from '@/types/api';
 import {
   parseApiErrorMessage,
   parseApiErrorStatus,

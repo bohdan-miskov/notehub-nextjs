@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../../api';
 import { setAuthCookies } from '@/utils/cookieOperations';
 import { cookies } from 'next/headers';
-import { ApiError } from '@/types/auth';
+import { ApiError } from '@/types/api';
 import {
   parseApiErrorMessage,
   parseApiErrorStatus,

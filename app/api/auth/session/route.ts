@@ -6,7 +6,7 @@ import {
   parseApiErrorMessage,
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
-import { ApiError } from '@/types/auth';
+import { ApiError } from '@/types/api';
 
 export async function GET() {
   const cookieStore = await cookies();

@@ -6,23 +6,59 @@ import Modal from '../Modal/Modal';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteNote, getNoteById } from '@/lib/api/clientApi/noteApi';
 import Link from 'next/link';
+import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
+import { Note } from '@/types/note';
+import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
+import { ErrorResponse } from '@/types/api';
 
 export default function NoteDetailsModalClient() {
   const [isOpen, setIsOpen] = useState(true);
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const {
-    data: note,
-    isLoading,
-    error,
-  } = useQuery({
+  const [note, setNote] = useState<Note | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<ErrorResponse | null>(null);
+
+  const errorMessages = {
+    ...ERROR_MESSAGES,
+  };
+
+  const query = useQuery({
     queryKey: ['note', id],
     queryFn: () => getNoteById(id),
     refetchOnMount: false,
   });
+
+  useEffect(() => {
+    setNote(query.data ?? null);
+    setIsLoading(query.isLoading);
+    if (query.error) {
+      const err = query.error as unknown;
+
+      const errorResponse: ErrorResponse = {
+        status: (err as ErrorResponse)?.status ?? 500,
+        message: (err as Error)?.message ?? DEFAULT_ERROR,
+      };
+
+      setError(errorResponse);
+    }
+  }, [query.data, query.isLoading, query.error]);
+
+  async function handleDelete(id: string) {
+    try {
+      setIsLoading(true);
+      setError(null);
+      await deleteNote(id);
+      router.back();
+    } catch (error) {
+      setError(error as ErrorResponse);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   function onClose() {
     setIsOpen(false);
@@ -33,47 +69,48 @@ export default function NoteDetailsModalClient() {
     setIsOpen(false);
   }
 
-  async function handleDelete(id: string) {
-    await deleteNote(id);
-    router.back();
-  }
-
-  if (isLoading) return <FullScreenLoader text="Note loading ..." />;
-
-  if (error || !note) return <p>Some error..</p>;
+  if (!note) return <p>Some error..</p>;
 
   const formattedDate = formatDateContent(note.createdAt, note.updatedAt);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={css.container}>
-        <div className={css.item}>
-          <div className={css.header}>
-            <h2>{note.title}</h2>
-          </div>
+    <>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <div className={css.container}>
+          <div className={css.item}>
+            <div className={css.header}>
+              <h2>{note.title}</h2>
+            </div>
 
-          <div className={css.scrollArea}>
-            <p className={css.content}>{note.content}</p>
-          </div>
+            <div className={css.scrollArea}>
+              <p className={css.content}>{note.content}</p>
+            </div>
 
-          <p className={css.date}>{formattedDate}</p>
-          <div className={css.actions}>
-            <Link
-              className={css.editButton}
-              href={`/notes/action/update/${id}`}
-              onClick={onChangeRoute}
-            >
-              Edit
-            </Link>
-            <button
-              className={css.deleteButton}
-              onClick={() => handleDelete(note.id)}
-            >
-              Delete
-            </button>
+            <p className={css.date}>{formattedDate}</p>
+            <div className={css.actions}>
+              <Link
+                className={css.editButton}
+                href={`/notes/action/update/${id}`}
+                onClick={onChangeRoute}
+              >
+                Edit
+              </Link>
+              <button
+                className={css.deleteButton}
+                onClick={() => handleDelete(note.id)}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+      {isLoading && <FullScreenLoader text="Note loading ..." />}
+      {error && !isLoading && (
+        <ErrorToastMessage>
+          {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
+        </ErrorToastMessage>
+      )}
+    </>
   );
 }

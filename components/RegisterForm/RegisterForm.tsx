@@ -4,19 +4,24 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './RegisterForm.module.css';
 import { useAuthStore } from '@/lib/stores/authStore';
 import { register } from '@/lib/api/clientApi/authApi';
-import { ApiError, RegisterRequest } from '@/types/auth';
+import { RegisterRequest } from '@/types/auth';
 import { registerSchema } from './RegisterForm.validation';
 import { useState } from 'react';
-import { parseApiErrorMessage } from '@/utils/parseApiError';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { useRouter } from 'next/navigation';
+import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
+import { ErrorResponse } from '@/types/api';
 
 export default function RegisterForm() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const setUser = useAuthStore(state => state.setUser);
+
+  const errorMessages = {
+    ...ERROR_MESSAGES,
+  };
 
   type Values = {
     username: string;
@@ -33,13 +38,14 @@ export default function RegisterForm() {
   async function handleSubmit(values: RegisterRequest) {
     try {
       setIsLoading(true);
+      setError(null);
       const user = await register(values);
       if (user) {
         setUser(user);
         router.push('/profile');
       }
     } catch (error) {
-      setError(parseApiErrorMessage(error as ApiError));
+      setError(error as ErrorResponse);
     } finally {
       setIsLoading(false);
     }
@@ -103,7 +109,11 @@ export default function RegisterForm() {
         </Form>
       </Formik>
       {isLoading && <FullScreenLoader text="Registration..." />}
-      {error && !isLoading && <ErrorToastMessage>{error}</ErrorToastMessage>}
+      {error && !isLoading && (
+        <ErrorToastMessage>
+          {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
+        </ErrorToastMessage>
+      )}
     </>
   );
 }

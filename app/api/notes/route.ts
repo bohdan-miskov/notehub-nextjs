@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../api';
 import { Note, NoteResponse } from '@/types/note';
-import { ApiError } from '@/types/auth';
 import {
   parseApiErrorMessage,
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
 import { cookies } from 'next/headers';
+import { ApiError } from '@/types/api';
 
 export async function GET(request: NextRequest) {
   const tag = request.nextUrl.searchParams.get('tag');

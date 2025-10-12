@@ -3,20 +3,25 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import css from './LoginForm.module.css';
 import { useAuthStore } from '@/lib/stores/authStore';
-import { ApiError, LoginRequest } from '@/types/auth';
+import { LoginRequest } from '@/types/auth';
 import { useState } from 'react';
-import { parseApiErrorMessage } from '@/utils/parseApiError';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { login } from '@/lib/api/clientApi/authApi';
 import { loginSchema } from './LoginForm.validation';
 import { useRouter } from 'next/navigation';
+import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
+import { ErrorResponse } from '@/types/api';
 
 export default function LoginForm() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const setUser = useAuthStore(state => state.setUser);
+
+  const errorMessages = {
+    ...ERROR_MESSAGES,
+  };
 
   type Values = {
     email: string;
@@ -37,7 +42,7 @@ export default function LoginForm() {
         router.push('/profile');
       }
     } catch (error) {
-      setError(parseApiErrorMessage(error as ApiError));
+      setError(error as ErrorResponse);
     } finally {
       setIsLoading(false);
     }
@@ -85,7 +90,11 @@ export default function LoginForm() {
         </Form>
       </Formik>
       {isLoading && <FullScreenLoader text="Logging in..." />}
-      {error && !isLoading && <ErrorToastMessage>{error}</ErrorToastMessage>}
+      {error && !isLoading && (
+        <ErrorToastMessage>
+          {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
+        </ErrorToastMessage>
+      )}
     </>
   );
 }
