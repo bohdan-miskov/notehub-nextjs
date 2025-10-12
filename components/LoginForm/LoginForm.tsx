@@ -12,11 +12,13 @@ import { loginSchema } from './LoginForm.validation';
 import { useRouter } from 'next/navigation';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
 import { ErrorResponse } from '@/types/api';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 export default function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const setUser = useAuthStore(state => state.setUser);
 
   const errorMessages = {
@@ -39,6 +41,7 @@ export default function LoginForm() {
       const user = await login(values);
       if (user) {
         setUser(user);
+        setSuccessMessage('Successfully logged in !');
         router.push('/profile');
       }
     } catch (error) {
@@ -94,6 +97,9 @@ export default function LoginForm() {
         <ErrorToastMessage>
           {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
         </ErrorToastMessage>
+      )}
+      {successMessage && !isLoading && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
     </>
   );

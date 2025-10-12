@@ -14,11 +14,7 @@ type Props = {
 export default function UpdateNote({ params }: Props) {
   const { id } = params;
 
-  const {
-    data: note,
-    isLoading,
-    error,
-  } = useQuery<Note, Error>({
+  const { data: note, isLoading } = useQuery<Note, Error>({
     queryKey: ['note', id],
     queryFn: () => getNoteById(id),
   });

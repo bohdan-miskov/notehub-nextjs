@@ -19,6 +19,7 @@ import { createNote, updateNote } from '@/lib/api/clientApi/noteApi';
 import { useState } from 'react';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { ErrorResponse } from '@/types/api';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 type Props = {
   note?: Note;
@@ -29,6 +30,7 @@ export default function NoteForm({ note }: Props) {
   const { draft, hasHydrated, setDraft, clearDraft } = useNoteDraftStore();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<ErrorResponse | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
@@ -69,9 +71,11 @@ export default function NoteForm({ note }: Props) {
       setError(null);
       if (note) {
         await updateNote({ payload: values, id: note.id });
+        setSuccessMessage('Successfully updated !');
         // mutate({ payload: values, id: note.id });
       } else {
         await createNote(values);
+        setSuccessMessage('Successfully added !');
         clearDraft();
         // mutate(values);
       }
@@ -197,6 +201,9 @@ export default function NoteForm({ note }: Props) {
         <ErrorToastMessage>
           {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
         </ErrorToastMessage>
+      )}
+      {successMessage && !isLoading && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
     </>
   );

@@ -14,6 +14,7 @@ import { deleteNote, getNotes } from '@/lib/api/clientApi/noteApi';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { ErrorResponse } from '@/types/api';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 type Props = {
   searchParams: NotesSearchParams | undefined;
@@ -25,6 +26,7 @@ export default function NoteListClient({ searchParams }: Props) {
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<ErrorResponse | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -57,6 +59,7 @@ export default function NoteListClient({ searchParams }: Props) {
   async function handleDelete(id: string) {
     await deleteNote(id);
     //setNotes(prevNotes => prevNotes.filter(note => note.id != id));
+    setSuccessMessage('Successfully deleted !');
     queryClient.invalidateQueries({ queryKey: ['notes', search, page] });
   }
 
@@ -91,6 +94,9 @@ export default function NoteListClient({ searchParams }: Props) {
         <ErrorToastMessage>
           {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
         </ErrorToastMessage>
+      )}
+      {successMessage && !isLoading && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
     </>
   );

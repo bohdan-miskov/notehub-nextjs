@@ -6,6 +6,7 @@ import Footer from '@/components/Footer/Footer';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import { Toaster } from 'react-hot-toast';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -59,6 +60,7 @@ export default function RootLayout({
               </main>
               <Footer />
               <div id="modal-root"></div>
+              <Toaster position="top-center" reverseOrder={false} />
             </AuthProvider>
           </TanStackProvider>
         </div>

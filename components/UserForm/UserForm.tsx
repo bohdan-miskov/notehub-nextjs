@@ -13,12 +13,14 @@ import { useAuthStore } from '@/lib/stores/authStore';
 import clsx from 'clsx';
 import { ErrorResponse } from '@/types/api';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 export default function UserForm() {
   const router = useRouter();
   const user = useAuthStore(state => state.user);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
@@ -38,6 +40,7 @@ export default function UserForm() {
       setError(null);
       const user = await updateMe(values);
       if (user) {
+        setSuccessMessage('Successfully updated !');
         router.push('/profile');
       }
     } catch (error) {
@@ -94,6 +97,9 @@ export default function UserForm() {
         <ErrorToastMessage>
           {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
         </ErrorToastMessage>
+      )}
+      {successMessage && !isLoading && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
     </>
   );

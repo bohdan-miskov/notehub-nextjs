@@ -12,11 +12,13 @@ import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
 import { useRouter } from 'next/navigation';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
 import { ErrorResponse } from '@/types/api';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 export default function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const setUser = useAuthStore(state => state.setUser);
 
   const errorMessages = {
@@ -42,6 +44,7 @@ export default function RegisterForm() {
       const user = await register(values);
       if (user) {
         setUser(user);
+        setSuccessMessage('Successfully registered !');
         router.push('/profile');
       }
     } catch (error) {
@@ -113,6 +116,9 @@ export default function RegisterForm() {
         <ErrorToastMessage>
           {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
         </ErrorToastMessage>
+      )}
+      {successMessage && !isLoading && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
     </>
   );

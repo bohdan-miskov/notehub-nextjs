@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { Note } from '@/types/note';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
 import { ErrorResponse } from '@/types/api';
+import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 
 export default function NoteDetailsClient() {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +21,7 @@ export default function NoteDetailsClient() {
   const [note, setNote] = useState<Note | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<ErrorResponse | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
@@ -51,6 +53,7 @@ export default function NoteDetailsClient() {
       setIsLoading(true);
       setError(null);
       await deleteNote(id);
+      setSuccessMessage('Successfully deleted !');
       router.back();
     } catch (error) {
       setError(error as ErrorResponse);
@@ -95,6 +98,9 @@ export default function NoteDetailsClient() {
         <ErrorToastMessage>
           {errorMessages[error.status as ERROR_CODES] ?? DEFAULT_ERROR}
         </ErrorToastMessage>
+      )}
+      {successMessage && !isLoading && (
+        <SuccessToastMessage>{successMessage}</SuccessToastMessage>
       )}
     </section>
   );
