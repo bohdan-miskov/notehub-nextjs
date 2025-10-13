@@ -79,7 +79,7 @@ export default function NoteForm({ note }: Props) {
         clearDraft();
         // mutate(values);
       }
-      router.replace(`/notes/filter/all`);
+      router.back();
     } catch (error) {
       setError(error as ErrorResponse);
     } finally {
@@ -94,7 +94,7 @@ export default function NoteForm({ note }: Props) {
   }
 
   function onClose() {
-    router.replace('/notes/filter/all');
+    router.back();
   }
 
   const tagOptions = TAGS_ARRAY.map(tag => {

@@ -3,10 +3,10 @@
 import { formatDateContent } from '@/utils/formatDate';
 import css from './NoteDetailsModalClient.module.css';
 import Modal from '../Modal/Modal';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { deleteNote, getNoteById } from '@/lib/api/clientApi/noteApi';
 import Link from 'next/link';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
@@ -23,6 +23,8 @@ export default function NoteDetailsModalClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const pathname = usePathname();
+  const initialPath = useRef(pathname);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
@@ -35,8 +37,14 @@ export default function NoteDetailsModalClient() {
   });
 
   useEffect(() => {
+    setIsOpen(true);
+    if (pathname !== initialPath.current) {
+      setIsOpen(false);
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     setNote(query.data ?? null);
-    // setIsLoading(query.isLoading);
     if (query.error) {
       const err = query.error as unknown;
 
