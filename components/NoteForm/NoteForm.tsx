@@ -69,18 +69,17 @@ export default function NoteForm({ note }: Props) {
     try {
       setIsLoading(true);
       setError(null);
-      let newNote;
       if (note) {
-        newNote = await updateNote({ payload: values, id: note.id });
+        await updateNote({ payload: values, id: note.id });
         setSuccessMessage('Successfully updated !');
         // mutate({ payload: values, id: note.id });
       } else {
-        newNote = await createNote(values);
+        await createNote(values);
         setSuccessMessage('Successfully added !');
         clearDraft();
         // mutate(values);
       }
-      router.push(`/notes/${newNote.id}`);
+      router.back();
     } catch (error) {
       setError(error as ErrorResponse);
     } finally {
