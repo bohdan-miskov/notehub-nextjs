@@ -23,6 +23,8 @@ export default function NoteDetailsModalClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const pathname = usePathname();
+  const initialPath = useRef(pathname);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
@@ -33,9 +35,6 @@ export default function NoteDetailsModalClient() {
     queryFn: () => getNoteById(id),
     refetchOnMount: false,
   });
-
-  const pathname = usePathname();
-  const initialPath = useRef(pathname);
 
   useEffect(() => {
     setIsOpen(true);
