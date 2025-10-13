@@ -69,17 +69,18 @@ export default function NoteForm({ note }: Props) {
     try {
       setIsLoading(true);
       setError(null);
+      let newNote;
       if (note) {
-        await updateNote({ payload: values, id: note.id });
+        newNote = await updateNote({ payload: values, id: note.id });
         setSuccessMessage('Successfully updated !');
         // mutate({ payload: values, id: note.id });
       } else {
-        await createNote(values);
+        newNote = await createNote(values);
         setSuccessMessage('Successfully added !');
         clearDraft();
         // mutate(values);
       }
-      router.replace(`/notes/filter/all`);
+      router.push(`/notes/${newNote.id}`);
     } catch (error) {
       setError(error as ErrorResponse);
     } finally {
@@ -94,7 +95,7 @@ export default function NoteForm({ note }: Props) {
   }
 
   function onClose() {
-    router.replace('/notes/filter/all');
+    router.back();
   }
 
   const tagOptions = TAGS_ARRAY.map(tag => {
