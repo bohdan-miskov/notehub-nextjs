@@ -20,7 +20,7 @@ export default function NoteDetailsModalClient() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [note, setNote] = useState<Note | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -36,7 +36,7 @@ export default function NoteDetailsModalClient() {
 
   useEffect(() => {
     setNote(query.data ?? null);
-    setIsLoading(query.isLoading);
+    // setIsLoading(query.isLoading);
     if (query.error) {
       const err = query.error as unknown;
 

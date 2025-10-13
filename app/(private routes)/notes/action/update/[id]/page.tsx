@@ -6,13 +6,14 @@ import { useQuery } from '@tanstack/react-query';
 import { getNoteById } from '@/lib/api/clientApi/noteApi';
 import FullScreenLoader from '@/components/FullScreenLoader/FullScreenLoader';
 import { Note } from '@/types/note';
+import React from 'react';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default function UpdateNote({ params }: Props) {
-  const { id } = params;
+  const { id } = React.use(params);
 
   const { data: note, isLoading } = useQuery<Note, Error>({
     queryKey: ['note', id],

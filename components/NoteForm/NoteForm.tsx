@@ -28,7 +28,7 @@ type Props = {
 export default function NoteForm({ note }: Props) {
   const router = useRouter();
   const { draft, hasHydrated, setDraft, clearDraft } = useNoteDraftStore();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -94,7 +94,7 @@ export default function NoteForm({ note }: Props) {
   }
 
   function onClose() {
-    router.push('/notes/filter/all');
+    router.replace('/notes/filter/all');
   }
 
   const tagOptions = TAGS_ARRAY.map(tag => {
