@@ -34,10 +34,11 @@ export default function Modal({ isOpen, onClose, children }: Props) {
   const modalRoot = document.getElementById('modal-root');
   if (!modalRoot) return null;
 
-  return createPortal(
+  return (
     <ReactModal
       isOpen={isOpen}
       onRequestClose={onClose}
+      parentSelector={() => document.getElementById('modal-root')!}
       className={{
         base: css.modal,
         afterOpen: css['modal--after-open'],
@@ -66,7 +67,6 @@ export default function Modal({ isOpen, onClose, children }: Props) {
         </svg>
       </button>
       <div className={css.content}>{children}</div>
-    </ReactModal>,
-    modalRoot
+    </ReactModal>
   );
 }
