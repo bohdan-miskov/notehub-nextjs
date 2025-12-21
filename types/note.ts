@@ -23,6 +23,6 @@ export type NotesSearchParams = {
 };
 
 export type NoteResponse = {
-  notes: Note[];
+  data: Note[];
   totalPages: number;
 };

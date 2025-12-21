@@ -41,7 +41,7 @@ export default function NoteListClient({ searchParams }: Props) {
   });
 
   useEffect(() => {
-    setNotes(query.data?.notes ?? []);
+    setNotes(query.data?.data ?? []);
     setTotalPages(query.data?.totalPages ?? 0);
     setIsLoading(query.isLoading);
     if (query.error) {
