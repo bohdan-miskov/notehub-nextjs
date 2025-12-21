@@ -40,7 +40,7 @@ export default async function Profile() {
           <div className={css.avatarWrapper}>
             <Image
               src={user.avatar ?? '/default-avatar.svg'}
-              alt={`${user.username}'s avatar`}
+              alt={`${user.name}'s avatar`}
               width={120}
               height={120}
               className={css.avatar}
@@ -50,7 +50,7 @@ export default async function Profile() {
           <div className={css.info}>
             <h2 className={css.subtitle}>Account Information</h2>
             <p className={css.field}>
-              <span className={css.label}>Username:</span> {user.username}
+              <span className={css.label}>Name:</span> {user.name}
             </p>
             <p className={css.field}>
               <span className={css.label}>Email:</span> {user.email}

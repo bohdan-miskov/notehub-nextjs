@@ -26,13 +26,13 @@ export default function RegisterForm() {
   };
 
   type Values = {
-    username: string;
+    name: string;
     email: string;
     password: string;
   };
 
   const initialValues: Values = {
-    username: '',
+    name: '',
     email: '',
     password: '',
   };
@@ -62,21 +62,17 @@ export default function RegisterForm() {
         validationSchema={registerSchema}
       >
         <Form className={css.form}>
-          <label className={css.label} htmlFor="username">
-            Username
+          <label className={css.label} htmlFor="name">
+            name
           </label>
           <Field
-            id="username"
+            id="name"
             type="text"
-            name="username"
+            name="name"
             className={css.input}
             required
           />
-          <ErrorMessage
-            name="username"
-            className={css.error}
-            component="span"
-          />
+          <ErrorMessage name="name" className={css.error} component="span" />
 
           <label className={css.label} htmlFor="email">
             Email

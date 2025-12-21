@@ -3,6 +3,7 @@ import { nextServer } from '../api';
 
 export async function register(payload: RegisterRequest) {
   const response = await nextServer.post<User>('/auth/register', {
+    name: payload.name,
     email: payload.email,
     password: payload.password,
   });

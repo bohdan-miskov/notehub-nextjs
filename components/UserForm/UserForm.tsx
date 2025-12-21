@@ -27,11 +27,11 @@ export default function UserForm() {
   };
 
   type Values = {
-    username: string;
+    name: string;
   };
 
   const initialValues: Values = {
-    username: user?.username ?? '',
+    name: user?.name ?? '',
   };
 
   async function handleSubmit(values: UserData) {
@@ -62,21 +62,17 @@ export default function UserForm() {
         validationSchema={userSchema}
       >
         <Form className={css.form}>
-          <label className={css.label} htmlFor="username">
-            Username
+          <label className={css.label} htmlFor="name">
+            Name
           </label>
           <Field
-            id="username"
+            id="name"
             type="text"
-            name="userName"
+            name="name"
             className={css.input}
             required
           />
-          <ErrorMessage
-            name="username"
-            className={css.error}
-            component="span"
-          />
+          <ErrorMessage name="name" className={css.error} component="span" />
 
           <div className={css.btnsContainer}>
             <button
