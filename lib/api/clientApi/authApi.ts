@@ -23,7 +23,7 @@ type CheckSessionResponse = {
   success: boolean;
 };
 
-export async function checkSession() {
-  const response = await nextServer.get<CheckSessionResponse>('/auth/session');
+export async function refreshTokens() {
+  const response = await nextServer.post<CheckSessionResponse>('/auth/refresh');
   return response.data.success;
 }

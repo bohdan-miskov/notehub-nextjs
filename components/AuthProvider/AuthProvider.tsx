@@ -1,6 +1,6 @@
 'use client';
 
-import { checkSession } from '@/lib/api/clientApi/authApi';
+import { refreshTokens } from '@/lib/api/clientApi/authApi';
 import { getMe } from '@/lib/api/clientApi/userApi';
 import { useAuthStore } from '@/lib/stores/authStore';
 import { ReactNode, useEffect } from 'react';
@@ -17,7 +17,7 @@ export default function AuthProvider({ children }: Props) {
 
   useEffect(() => {
     async function fetchUser() {
-      const isAuthenticated = await checkSession();
+      const isAuthenticated = await refreshTokens();
 
       if (isAuthenticated) {
         const user = await getMe();
