@@ -67,6 +67,7 @@ export default function LoginForm() {
             type="email"
             name="email"
             className={css.input}
+            autoComplete="username"
             required
           />
           <ErrorMessage name="email" className={css.error} component="span" />
@@ -79,6 +80,7 @@ export default function LoginForm() {
             type="password"
             name="password"
             className={css.input}
+            autoComplete="current-password"
             required
           />
           <ErrorMessage
