@@ -7,17 +7,18 @@ import {
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
 import { ApiError } from '@/types/api';
+import { CookiesResponse } from '@/types/auth';
 
 export async function POST(request: NextRequest) {
   const payload = await request.json();
 
   try {
-    const response = await api.post('/auth/login', payload);
+    const response = await api.post<CookiesResponse>('/auth/login', payload);
     const cookieStore = await cookies();
-    const setCookie = response.headers['set-cookie'];
+    const cookiesData = response.data;
 
-    if (setCookie) {
-      await setAuthCookies(cookieStore, setCookie);
+    if (cookiesData) {
+      setAuthCookies(cookieStore, cookiesData);
 
       return NextResponse.json(response.data);
     }
