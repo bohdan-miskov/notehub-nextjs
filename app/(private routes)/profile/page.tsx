@@ -1,4 +1,4 @@
-import { getServerMe } from '@/lib/api/serverApi/userApi';
+import { getMeServer } from '@/lib/api/serverApi/userApi';
 import Link from 'next/link';
 import css from './page.module.css';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
@@ -29,7 +29,7 @@ export function generateMetadata() {
 }
 
 export default async function Profile() {
-  const user = await getServerMe();
+  const user = await getMeServer();
 
   return (
     <section className={css.section}>
@@ -44,6 +44,7 @@ export default async function Profile() {
               width={120}
               height={120}
               className={css.avatar}
+              priority
             />
           </div>
 
