@@ -19,7 +19,8 @@
 
 .sidebarContainer:hover {
   width: 200px; /* розкривається */
-  max-height: calc(100vh * 0.75);
+  max-height: calc(100vh * 0.65);
+  overflow-y: scroll;
   background: rgba(30, 30, 50, 0.95); /* стає більш видимим */
   padding: 1rem 1rem;
 }
