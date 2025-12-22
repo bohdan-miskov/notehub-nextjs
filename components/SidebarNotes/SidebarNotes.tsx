@@ -12,8 +12,11 @@ export default function SidebarNotes() {
     queryKey: [TAGS_QUERY_KEY],
     queryFn: getTags,
   });
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.scrollTop = 0;
+  };
   return (
-    <div className={css.sidebarContainer}>
+    <div className={css.sidebarContainer} onMouseLeave={handleMouseLeave}>
       <h2 className={css.sidebarTitle}>Tags</h2>
       <Link
         href="/notes/action/create"
