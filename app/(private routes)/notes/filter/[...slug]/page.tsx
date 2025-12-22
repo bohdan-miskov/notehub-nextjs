@@ -1,6 +1,7 @@
 import NoteListClient from '@/components/NoteListClient/NoteListClient';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
-import { getNotes } from '@/lib/api/clientApi/noteApi';
+import { getTags } from '@/lib/api/clientApi/noteApi';
+import { getNotesServer, getTagsServer } from '@/lib/api/serverApi/noteApi';
 import { parseTagFromArray } from '@/utils/parseTag';
 import {
   dehydrate,
@@ -12,9 +13,24 @@ type Props = {
   params: Promise<{ slug: string[] }>;
 };
 
+export async function generateStaticParams() {
+  const tags = await getTags();
+
+  const paths = tags.map((tag: string) => ({
+    slug: [tag],
+  }));
+
+  paths.push({ slug: ['All'] });
+
+  return paths;
+}
+
+export const dynamicParams = true;
+
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const tag = parseTagFromArray(slug) ?? 'All';
+  const tags = await getTagsServer();
+  const tag = parseTagFromArray(tags, slug) ?? 'All';
   return {
     title: tag === 'All' ? 'All Notes' : `Notes – ${tag}`,
     description:
@@ -44,12 +60,13 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function NoteListPage({ params }: Props) {
   const { slug } = await params;
-  const tag = parseTagFromArray(slug);
+  const tags = await getTagsServer();
+  const tag = parseTagFromArray(tags, slug);
   const searchParams = tag ? { tag } : undefined;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ['notes', '', 1],
-    queryFn: () => getNotes(searchParams),
+    queryFn: () => getNotesServer(searchParams),
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

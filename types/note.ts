@@ -1,10 +1,8 @@
-import { TAG } from '@/constants';
-
 export type Note = {
   id: string;
   title: string;
   content: string;
-  tag: TAG;
+  tag: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -17,7 +15,7 @@ type SortBy = 'created' | 'updated';
 
 export type NotesSearchParams = {
   search?: string;
-  tag?: TAG;
+  tag?: string;
   page?: number;
   sortBy?: SortBy;
 };

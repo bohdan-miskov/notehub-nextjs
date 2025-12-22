@@ -1,12 +1,4 @@
-export enum TAG {
-  Todo = 'Todo',
-  Work = 'Work',
-  Personal = 'Personal',
-  Meeting = 'Meeting',
-  Shopping = 'Shopping',
-}
-
-export const TAGS_ARRAY = Object.values(TAG);
+export const TAGS_QUERY_KEY = 'tags';
 
 export const MAX_PAG_COUNT = 6;
 

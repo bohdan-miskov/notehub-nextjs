@@ -1,5 +1,3 @@
-import { TAG, TAGS_ARRAY } from '@/constants';
-
-export function parseTagFromArray(slug: string[]) {
-  return TAGS_ARRAY.includes(slug[0] as TAG) ? (slug[0] as TAG) : undefined;
+export function parseTagFromArray(tags: string[], slug: string[]) {
+  return tags.includes(slug[0]) ? slug[0] : undefined;
 }

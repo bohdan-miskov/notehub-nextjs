@@ -1,4 +1,4 @@
-import { NOTE_DRAFT_KEY, TAGS_ARRAY } from '@/constants';
+import { NOTE_DRAFT_KEY } from '@/constants';
 import { NoteCreatePayload } from '@/types/note';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -13,7 +13,7 @@ type NoteDraftStore = {
 const initialDraft: NoteCreatePayload = {
   title: '',
   content: '',
-  tag: TAGS_ARRAY[0],
+  tag: '',
 };
 
 export const useNoteDraftStore = create<NoteDraftStore>()(
