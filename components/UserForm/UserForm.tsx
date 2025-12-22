@@ -18,6 +18,7 @@ import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 export default function UserForm() {
   const router = useRouter();
   const user = useAuthStore(state => state.user);
+  const setUser = useAuthStore(state => state.setUser);
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -39,6 +40,7 @@ export default function UserForm() {
       setIsLoading(true);
       setError(null);
       const user = await updateMe(values);
+      setUser(user);
       if (user) {
         setSuccessMessage('Successfully updated !');
         router.push('/profile');

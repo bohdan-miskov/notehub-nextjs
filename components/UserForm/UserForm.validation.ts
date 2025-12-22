@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
 
 export const userSchema = Yup.object().shape({
-  username: Yup.string()
+  name: Yup.string()
     .trim()
-    .min(1, 'Too short')
+    .min(2, 'Too short')
     .max(30, 'Too long')
-    .required('Username is required'),
+    .required('Name is required'),
 });
