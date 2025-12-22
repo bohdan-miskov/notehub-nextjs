@@ -7,16 +7,22 @@ import {
 } from '@/utils/parseApiError';
 import { cookies } from 'next/headers';
 import { ApiError } from '@/types/api';
+import { createBearerAuth } from '@/utils/createBearerAuth';
+import { getAuthCookies } from '@/utils/cookieOperations';
 
 export async function GET() {
   const cookieStore = await cookies();
+  const { accessToken } = getAuthCookies(cookieStore);
   try {
-    const { data } = await api.get<UserProfile>('/users/me', {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
-    return NextResponse.json(data);
+    if (accessToken) {
+      const { data } = await api.get<UserProfile>('/users/me', {
+        headers: {
+          Authorization: createBearerAuth(accessToken),
+        },
+      });
+      return NextResponse.json(data);
+    }
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     return NextResponse.json(
       {
@@ -28,15 +34,19 @@ export async function GET() {
 }
 
 export async function PATCH(request: NextRequest) {
-  const payload = request.json();
+  const payload = await request.json();
   const cookieStore = await cookies();
+  const { accessToken } = getAuthCookies(cookieStore);
   try {
-    const { data } = await api.patch<UserProfile>('/users/me', payload, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
-    return NextResponse.json(data);
+    if (accessToken) {
+      const { data } = await api.patch<UserProfile>('/users/me', payload, {
+        headers: {
+          Authorization: createBearerAuth(accessToken),
+        },
+      });
+      return NextResponse.json(data);
+    }
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     return NextResponse.json(
       {
