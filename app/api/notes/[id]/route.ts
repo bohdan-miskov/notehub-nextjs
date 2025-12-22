@@ -7,6 +7,8 @@ import {
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
 import { cookies } from 'next/headers';
+import { getAuthCookies } from '@/utils/cookieOperations';
+import { createBearerAuth } from '@/utils/createBearerAuth';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -15,13 +17,17 @@ type Props = {
 export async function GET(request: NextRequest, { params }: Props) {
   const { id } = await params;
   const cookieStore = await cookies();
+  const { accessToken } = getAuthCookies(cookieStore);
   try {
-    const { data } = await api.get<Note>(`/notes/${id}`, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
-    return NextResponse.json(data);
+    if (accessToken) {
+      const { data } = await api.get<Note>(`/notes/${id}`, {
+        headers: {
+          Authorization: createBearerAuth(accessToken),
+        },
+      });
+      return NextResponse.json(data);
+    }
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     return NextResponse.json(
       {
@@ -35,13 +41,17 @@ export async function GET(request: NextRequest, { params }: Props) {
 export async function DELETE(request: NextRequest, { params }: Props) {
   const { id } = await params;
   const cookieStore = await cookies();
+  const { accessToken } = getAuthCookies(cookieStore);
   try {
-    await api.delete(`/notes/${id}`, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
-    return NextResponse.json({ message: 'Delete successfully' });
+    if (accessToken) {
+      await api.delete(`/notes/${id}`, {
+        headers: {
+          Authorization: createBearerAuth(accessToken),
+        },
+      });
+      return NextResponse.json({ message: 'Delete successfully' });
+    }
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     return NextResponse.json(
       {
@@ -58,13 +68,17 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   const { id } = await params;
   const payload = await request.json();
   const cookieStore = await cookies();
+  const { accessToken } = getAuthCookies(cookieStore);
   try {
-    const { data } = await api.patch<Note>(`/notes/${id}`, payload, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
-    return NextResponse.json(data);
+    if (accessToken) {
+      const { data } = await api.patch<Note>(`/notes/${id}`, payload, {
+        headers: {
+          Authorization: createBearerAuth(accessToken),
+        },
+      });
+      return NextResponse.json(data);
+    }
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     return NextResponse.json(
       {

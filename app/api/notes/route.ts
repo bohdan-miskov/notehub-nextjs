@@ -7,22 +7,28 @@ import {
 } from '@/utils/parseApiError';
 import { cookies } from 'next/headers';
 import { ApiError } from '@/types/api';
+import { getAuthCookies } from '@/utils/cookieOperations';
+import { createBearerAuth } from '@/utils/createBearerAuth';
 
 export async function GET(request: NextRequest) {
   const tag = request.nextUrl.searchParams.get('tag');
   const search = request.nextUrl.searchParams.get('search');
   const cookieStore = await cookies();
+  const { accessToken } = getAuthCookies(cookieStore);
   try {
-    const { data } = await api.get<NoteResponse>('/notes', {
-      params: {
-        tag,
-        search,
-      },
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
-    return NextResponse.json(data);
+    if (accessToken) {
+      const { data } = await api.get<NoteResponse>('/notes', {
+        params: {
+          tag,
+          search,
+        },
+        headers: {
+          Authorization: createBearerAuth(accessToken),
+        },
+      });
+      return NextResponse.json(data);
+    }
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     return NextResponse.json(
       {
@@ -36,13 +42,17 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const payload = await request.json();
   const cookieStore = await cookies();
+  const { accessToken } = getAuthCookies(cookieStore);
   try {
-    const { data } = await api.post<Note>('/notes', payload, {
-      headers: {
-        Cookie: cookieStore.toString(),
-      },
-    });
-    return NextResponse.json(data);
+    if (accessToken) {
+      const { data } = await api.post<Note>('/notes', payload, {
+        headers: {
+          Authorization: createBearerAuth(accessToken),
+        },
+      });
+      return NextResponse.json(data);
+    }
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } catch (error) {
     return NextResponse.json(
       {
