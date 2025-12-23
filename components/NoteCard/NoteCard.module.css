@@ -1,4 +1,5 @@
 .cardContainer {
+  position: relative;
   background-color: #f9fafb; /* світлий фон із легким відтінком */
   border-radius: 16px;
   padding: 24px;
@@ -18,6 +19,26 @@
   transform: translateY(-6px);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
   background-color: #ffffff; /* плавний “підсвітлений” ефект */
+}
+
+.checkContainer {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  background-color: green;
+  border-radius: 50%;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1px;
+}
+
+.checkIcon {
+  stroke: #fff;
+  fill: transparent;
 }
 
 .title {
