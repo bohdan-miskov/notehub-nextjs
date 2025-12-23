@@ -58,6 +58,7 @@ export default function NoteForm({ note }: Props) {
   type InitialValues = {
     title: string;
     content: string;
+    isDone: boolean;
     tag: string;
   };
 
@@ -65,6 +66,7 @@ export default function NoteForm({ note }: Props) {
     ? {
         title: note.title,
         content: note.content,
+        isDone: note.isDone,
         tag: String(note.tag),
       }
     : draft;
@@ -156,6 +158,28 @@ export default function NoteForm({ note }: Props) {
                 />
                 <ErrorMessage
                   name="content"
+                  className={css.error}
+                  component="span"
+                />
+              </div>
+
+              <div className={css.formGroup}>
+                <div className={css.checkboxGroup}>
+                  <label className={css.label} htmlFor="isDone">
+                    Is done
+                  </label>
+                  <Field
+                    id="isDone"
+                    name="isDone"
+                    type="checkbox"
+                    value="true"
+                    checked={values.isDone}
+                    onChange={onChange}
+                    className={css.checkbox}
+                  />
+                </div>
+                <ErrorMessage
+                  name="isDone"
                   className={css.error}
                   component="span"
                 />

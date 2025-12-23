@@ -12,6 +12,7 @@ export const noteSchema = Yup.object()
       .min(2, 'Too short')
       .max(3000, 'Too long')
       .required('Content is required'),
+    isDone: Yup.boolean(),
     tag: Yup.string().required('Tag is required'),
   })
   .required();

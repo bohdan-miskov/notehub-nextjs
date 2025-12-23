@@ -3,11 +3,12 @@ export type Note = {
   title: string;
   content: string;
   tag: string;
+  isDone: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
 
-export type NoteCreatePayload = Pick<Note, 'title' | 'content' | 'tag'>;
+export type NoteCreatePayload = Pick<Note, 'title' | 'content' | 'tag' | 'isDone'>;
 
 export type NoteUpdatePayload = NoteCreatePayload;
 

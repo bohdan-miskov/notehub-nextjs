@@ -14,6 +14,7 @@ const initialDraft: NoteCreatePayload = {
   title: '',
   content: '',
   tag: '',
+  isDone: false,
 };
 
 export const useNoteDraftStore = create<NoteDraftStore>()(
