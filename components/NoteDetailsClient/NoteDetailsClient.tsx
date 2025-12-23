@@ -72,7 +72,10 @@ export default function NoteDetailsClient() {
         <div className={css.container}>
           <div className={css.item}>
             <div className={css.header}>
-              <h2>{note.title}</h2>
+              <h2>
+                {note.title}
+                {note.isDone && <span className={css.titleAccent}>(Done)</span>}
+              </h2>
               <div className={css.actions}>
                 <Link
                   className={css.editButton}
