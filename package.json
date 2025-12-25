@@ -13,6 +13,7 @@
     "@types/react-modal": "^3.16.3",
     "@types/react-select": "^5.0.0",
     "axios": "^1.12.2",
+    "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
     "cookie": "^1.0.2",
     "date-fns": "^4.1.0",

@@ -54,18 +54,15 @@ export function setAuthCookiesFromHeaders(
       : [];
 
   for (const cookieStr of cookieArray) {
-    console.log('🚀 ~ setAuthCookiesFromHeaders ~ cookieStr:', cookieStr);
     const parsed = parse(cookieStr);
-    // Створюємо налаштування для cookies
+
     const options = {
       expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
       path: parsed.Path,
       maxAge: Number(parsed['Max-Age']),
     };
 
-    // Методом cookieStore.set додаємо кукі до нашого запиту
     if (parsed.accessToken) {
-      // cookieStore.set('імʼя ключа',  'значення токену',  додаткові налаштування)
       cookieStore.set(ACCESS_TOKEN_KEY, parsed.accessToken, options);
     }
     if (parsed.refreshToken) {
