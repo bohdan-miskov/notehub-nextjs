@@ -1,13 +1,16 @@
 export type User = {
   name: string;
   email: string;
+  avatar?: string | null;
 };
 
 export type UserProfile = User & {
   avatar: string;
 };
 
-export type UserData = Omit<User, 'email'>;
+export type UserUpdateData = Omit<User, 'email' | 'avatar'> & {
+  avatar: File | null;
+};
 
 export type RegisterRequest = User & { password: string };
 

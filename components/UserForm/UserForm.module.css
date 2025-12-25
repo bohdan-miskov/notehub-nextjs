@@ -61,6 +61,40 @@
   margin-top: -0.5rem;
 }
 
+.imageUpload {
+  width: 100%;
+  height: 250px;
+  border-radius: 16px;
+  background: grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.uploadDefault {
+  width: 82px;
+  height: 82px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.imageUpload svg {
+  stroke: #212121;
+  fill: transparent;
+  width: 52px;
+  height: 52px;
+}
+
+.imageUpload img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
 .btn {
   margin-top: 0.75rem;
   padding: 0.8rem 1.25rem;
