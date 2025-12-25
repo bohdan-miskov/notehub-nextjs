@@ -34,7 +34,7 @@ export async function GET() {
 }
 
 export async function PATCH(request: NextRequest) {
-  const payload = await request.json();
+  const payload = await request.formData();
   const cookieStore = await cookies();
   const { accessToken } = getAuthCookies(cookieStore);
   try {
@@ -42,6 +42,7 @@ export async function PATCH(request: NextRequest) {
       const { data } = await api.patch<UserProfile>('/users/me', payload, {
         headers: {
           Authorization: createBearerAuth(accessToken),
+          'Content-Type': 'multipart/form-data',
         },
       });
       return NextResponse.json(data);

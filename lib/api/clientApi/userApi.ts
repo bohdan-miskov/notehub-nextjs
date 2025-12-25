@@ -1,4 +1,4 @@
-import { UserData, UserProfile } from '@/types/auth';
+import { UserUpdateData, UserProfile } from '@/types/auth';
 import { nextServer } from '../api';
 
 export async function getMe() {
@@ -6,7 +6,11 @@ export async function getMe() {
   return response.data;
 }
 
-export async function updateMe(payload: UserData) {
-  const response = await nextServer.patch<UserProfile>('/users/me', payload);
+export async function updateMe(payload: FormData) {
+  const response = await nextServer.patch<UserProfile>('/users/me', payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 }
