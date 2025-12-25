@@ -15,6 +15,7 @@ import { ErrorResponse } from '@/types/api';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
 import Image from 'next/image';
+import { compressImage } from '@/utils/compressImage';
 
 export default function UserForm() {
   const router = useRouter();
@@ -65,7 +66,11 @@ export default function UserForm() {
     router.push('/profile');
   }
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (user?.avatar) {
+      setPreview(user.avatar);
+    }
+  }, [user]);
 
   return (
     <>
@@ -73,13 +78,22 @@ export default function UserForm() {
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={userSchema}
+        enableReinitialize={true}
       >
         {({ setFieldValue }) => {
-          function onAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+          async function onAvatarChange(
+            e: React.ChangeEvent<HTMLInputElement>
+          ) {
             if (e.currentTarget?.files) {
               const file = e.currentTarget?.files[0];
-              setFieldValue('avatar', file);
-              setPreview(URL.createObjectURL(file));
+              let compressedFile;
+              try {
+                compressedFile = await compressImage(file, { maxSizeMB: 2 });
+              } catch {
+                compressedFile = file;
+              }
+              setFieldValue('avatar', compressedFile);
+              setPreview(URL.createObjectURL(compressedFile));
             }
           }
           return (
@@ -111,6 +125,11 @@ export default function UserForm() {
                   </div>
                 )}
               </label>
+              <ErrorMessage
+                name="avatar"
+                className={css.error}
+                component="span"
+              />
               <label className={css.label} htmlFor="name">
                 Name
               </label>
