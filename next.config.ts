@@ -2,7 +2,14 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'ac.goit.global' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'ac.goit.global' },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      },
+    ],
   },
 };
 
