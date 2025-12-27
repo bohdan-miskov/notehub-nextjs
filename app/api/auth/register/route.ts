@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const cookiesData = response.data;
     if (cookiesData) {
       setAuthCookies(cookieStore, cookiesData);
-      return NextResponse.json(response.data);
+      return NextResponse.json({});
     }
 
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
