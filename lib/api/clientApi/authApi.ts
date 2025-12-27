@@ -1,18 +1,23 @@
-import { LoginRequest, RegisterRequest, User } from '@/types/auth';
+import { LoginRequest, RegisterRequest } from '@/types/auth';
 import { nextServer } from '../api';
 
 export async function register(payload: RegisterRequest) {
-  const response = await nextServer.post<User>('/auth/register', {
+  await nextServer.post('/auth/register', {
     name: payload.name,
     email: payload.email,
     password: payload.password,
   });
-  return response.data;
+  return;
 }
 
 export async function login(payload: LoginRequest) {
-  const response = await nextServer.post<User>('/auth/login', payload);
-  return response.data;
+  await nextServer.post('/auth/login', payload);
+  return;
+}
+
+export async function getGoogleOAuth() {
+  const response = await nextServer.get('/auth/get-google-oauth');
+  return response.data.url;
 }
 
 export async function logout() {
