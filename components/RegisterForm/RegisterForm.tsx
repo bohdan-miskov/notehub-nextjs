@@ -13,13 +13,14 @@ import { useRouter } from 'next/navigation';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
 import { ErrorResponse } from '@/types/api';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+import GoogleOAuthBtn from '../GoogleOAuthBtn/GoogleOAuthBtn';
 
 export default function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const setUser = useAuthStore(state => state.setUser);
+  // const setUser = useAuthStore(state => state.setUser);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
@@ -41,12 +42,11 @@ export default function RegisterForm() {
     try {
       setIsLoading(true);
       setError(null);
-      const user = await register(values);
-      if (user) {
-        setUser(user);
-        setSuccessMessage('Successfully registered !');
-        router.push('/profile');
-      }
+      await register(values);
+      // if (user) {
+      //   setUser(user);
+      setSuccessMessage('Successfully registered !');
+      router.push('/profile');
     } catch (error) {
       setError(error as ErrorResponse);
     } finally {
@@ -107,6 +107,7 @@ export default function RegisterForm() {
           </button>
         </Form>
       </Formik>
+      <GoogleOAuthBtn />
       {isLoading && <FullScreenLoader text="Registration..." />}
       {error && !isLoading && (
         <ErrorToastMessage>
