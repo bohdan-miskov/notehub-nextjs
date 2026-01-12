@@ -1,78 +1,79 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  getAuthCookies,
-  setAuthCookiesFromHeaders,
-} from './utils/cookieOperations';
+import { getAuthCookies, setAuthCookies } from './utils/cookieOperations';
 import { refreshTokens } from './lib/api/serverApi/authApi';
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from './constants';
 
 const privateRoutes = ['/profile', '/notes'];
 const authRoutes = ['/sign-in', '/sign-up'];
 
 export async function middleware(request: NextRequest) {
-  const cookieStore = await cookies();
-
-  const { accessToken, refreshToken } = getAuthCookies(cookieStore);
-
   const { pathname } = request.nextUrl;
 
   if (
     pathname.startsWith('/api/auth') ||
+    pathname.startsWith('/api/notes/tags') ||
     pathname.includes('_next') ||
     pathname.includes('favicon.ico')
   ) {
     return NextResponse.next();
   }
 
+  const cookieStore = await cookies();
+  const { accessToken, refreshToken } = getAuthCookies(cookieStore);
+
   const isAuthRoute = authRoutes.some(route => pathname.startsWith(route));
   const isPrivateRoute = privateRoutes.some(route =>
     pathname.startsWith(route)
   );
-  if (!accessToken) {
-    if (refreshToken) {
-      const refreshResponse = await refreshTokens();
 
-      const setCookieHeader =
-        refreshResponse.headers &&
-        typeof refreshResponse.headers.get === 'function'
-          ? refreshResponse.headers.get('set-cookie')
-          : null;
+  if (!accessToken && refreshToken) {
+    const refreshResponse = await refreshTokens();
 
-      if (setCookieHeader) {
-        setAuthCookiesFromHeaders(
-          cookieStore,
-          refreshResponse.headers['set-cookie']
-        );
+    if (refreshResponse && refreshResponse.data) {
+      const cookiesData = refreshResponse.data;
 
-        const response = isAuthRoute
-          ? NextResponse.redirect(new URL('/', request.url))
-          : NextResponse.next();
+      setAuthCookies(cookieStore, cookiesData);
 
-        response.headers.set('set-cookie', setCookieHeader.toString());
-        response.headers.set('Cookie', cookieStore.toString());
+      const response = isAuthRoute
+        ? NextResponse.redirect(new URL('/', request.url))
+        : NextResponse.next();
 
-        return response;
-      }
-    }
+      response.cookies.set(ACCESS_TOKEN_KEY, cookiesData.accessToken, {
+        httpOnly: true,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: cookiesData.expiresIn,
+      });
 
-    if (isAuthRoute) {
-      return NextResponse.next();
-    }
+      response.cookies.set(REFRESH_TOKEN_KEY, cookiesData.refreshToken, {
+        httpOnly: true,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: cookiesData.refreshExpiresIn,
+      });
 
-    if (isPrivateRoute) {
-      return NextResponse.redirect(new URL('/sign-in', request.url));
+      response.headers.set('Cookie', cookieStore.toString());
+
+      return response;
     }
   }
 
-  if (isAuthRoute) {
-    return NextResponse.redirect(new URL('/', request.url));
+  if (accessToken) {
+    if (isAuthRoute) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return NextResponse.next();
   }
 
   if (isPrivateRoute) {
-    return NextResponse.next();
+    const url = new URL('/sign-in', request.url);
+    return NextResponse.redirect(url);
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/profile/:path*', '/sign-in', '/sign-up', '/notes/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
