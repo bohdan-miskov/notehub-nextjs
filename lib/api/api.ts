@@ -4,3 +4,8 @@ export const nextServer = axios.create({
   baseURL: process.env.NEXT_PUBLIC_HANDLERS_URL,
   withCredentials: true,
 });
+
+export const nestServer = axios.create({
+  baseURL: process.env.NEXT_API_URL,
+  withCredentials: true,
+});

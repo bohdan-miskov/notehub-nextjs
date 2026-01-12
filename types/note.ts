@@ -1,15 +1,14 @@
-import { TAG } from '@/constants';
-
 export type Note = {
   id: string;
   title: string;
   content: string;
-  tag: TAG;
+  tag: string;
+  isDone: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
 
-export type NoteCreatePayload = Pick<Note, 'title' | 'content' | 'tag'>;
+export type NoteCreatePayload = Pick<Note, 'title' | 'content' | 'tag' | 'isDone'>;
 
 export type NoteUpdatePayload = NoteCreatePayload;
 
@@ -17,12 +16,12 @@ type SortBy = 'created' | 'updated';
 
 export type NotesSearchParams = {
   search?: string;
-  tag?: TAG;
+  tag?: string;
   page?: number;
   sortBy?: SortBy;
 };
 
 export type NoteResponse = {
-  notes: Note[];
+  data: Note[];
   totalPages: number;
 };

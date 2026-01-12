@@ -1,15 +1,22 @@
 'use client';
 
-import { TAGS_ARRAY } from '@/constants';
 import css from './TagsMenu.module.css';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useAuthStore } from '@/lib/stores/authStore';
+import { getTags } from '@/lib/api/clientApi/noteApi';
+import { useQuery } from '@tanstack/react-query';
+import { TAGS_QUERY_KEY } from '@/constants';
 
 export default function TagsMenu() {
+  const { data: tags = [] } = useQuery({
+    queryKey: [TAGS_QUERY_KEY],
+    queryFn: getTags,
+  });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const tagsMenuListRef = useRef<HTMLUListElement>(null);
 
   function onToggleMenu() {
     if (!isMenuOpen) {
@@ -21,6 +28,12 @@ export default function TagsMenu() {
   function handleCloseMenu() {
     setIsMenuOpen(false);
     document.removeEventListener('click', handleCloseMenu);
+
+    setTimeout(() => {
+      if (tagsMenuListRef.current) {
+        tagsMenuListRef.current.scrollTop = 0;
+      }
+    }, 400);
   }
 
   return (
@@ -30,8 +43,11 @@ export default function TagsMenu() {
           <button className={css.menuButton} onClick={onToggleMenu}>
             Notes ▾
           </button>
-          <ul className={clsx(isMenuOpen && css.isOpen, css.menuList)}>
-            {['All', ...TAGS_ARRAY].map((tag, index) => (
+          <ul
+            className={clsx(isMenuOpen && css.isOpen, css.menuList)}
+            ref={tagsMenuListRef}
+          >
+            {['All', ...tags].map((tag, index) => (
               <li className={css.menuItem} key={`tags-menu-item-${index}`}>
                 <Link href={`/notes/filter/${tag}`} className={css.menuLink}>
                   {tag}

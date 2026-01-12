@@ -13,26 +13,27 @@ import { useRouter } from 'next/navigation';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
 import { ErrorResponse } from '@/types/api';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+import GoogleOAuthBtn from '../GoogleOAuthBtn/GoogleOAuthBtn';
 
 export default function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const setUser = useAuthStore(state => state.setUser);
+  // const setUser = useAuthStore(state => state.setUser);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
   };
 
   type Values = {
-    username: string;
+    name: string;
     email: string;
     password: string;
   };
 
   const initialValues: Values = {
-    username: '',
+    name: '',
     email: '',
     password: '',
   };
@@ -41,12 +42,11 @@ export default function RegisterForm() {
     try {
       setIsLoading(true);
       setError(null);
-      const user = await register(values);
-      if (user) {
-        setUser(user);
-        setSuccessMessage('Successfully registered !');
-        router.push('/profile');
-      }
+      await register(values);
+      // if (user) {
+      //   setUser(user);
+      setSuccessMessage('Successfully registered !');
+      router.push('/profile');
     } catch (error) {
       setError(error as ErrorResponse);
     } finally {
@@ -62,21 +62,17 @@ export default function RegisterForm() {
         validationSchema={registerSchema}
       >
         <Form className={css.form}>
-          <label className={css.label} htmlFor="username">
-            Username
+          <label className={css.label} htmlFor="name">
+            name
           </label>
           <Field
-            id="username"
+            id="name"
             type="text"
-            name="username"
+            name="name"
             className={css.input}
             required
           />
-          <ErrorMessage
-            name="username"
-            className={css.error}
-            component="span"
-          />
+          <ErrorMessage name="name" className={css.error} component="span" />
 
           <label className={css.label} htmlFor="email">
             Email
@@ -111,6 +107,7 @@ export default function RegisterForm() {
           </button>
         </Form>
       </Formik>
+      <GoogleOAuthBtn />
       {isLoading && <FullScreenLoader text="Registration..." />}
       {error && !isLoading && (
         <ErrorToastMessage>

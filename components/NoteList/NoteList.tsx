@@ -12,13 +12,14 @@ export default function NoteList({ notes, handleDelete }: Props) {
     <section className={css.listSection}>
       <div className="container">
         <ul className={css.list}>
-          {notes.map(({ id, title, content, tag }) => (
+          {notes.map(({ id, title, content, tag, isDone }) => (
             <li key={id}>
               <NoteCard
                 id={id}
                 title={title}
                 content={content}
                 tag={tag}
+                isDone={isDone}
                 handleDelete={handleDelete}
               />
             </li>

@@ -13,13 +13,15 @@ import { useRouter } from 'next/navigation';
 import { DEFAULT_ERROR, ERROR_CODES, ERROR_MESSAGES } from '@/constants';
 import { ErrorResponse } from '@/types/api';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+import GoogleLGoogleOAuthBtn from '../GoogleOAuthBtn/GoogleOAuthBtn';
+import GoogleOAuthBtn from '../GoogleOAuthBtn/GoogleOAuthBtn';
 
 export default function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const setUser = useAuthStore(state => state.setUser);
+  //const setUser = useAuthStore(state => state.setUser);
 
   const errorMessages = {
     ...ERROR_MESSAGES,
@@ -38,12 +40,11 @@ export default function LoginForm() {
   async function handleSubmit(values: LoginRequest) {
     try {
       setIsLoading(true);
-      const user = await login(values);
-      if (user) {
-        setUser(user);
-        setSuccessMessage('Successfully logged in !');
-        router.push('/profile');
-      }
+      await login(values);
+      // if (user) {
+      //   setUser(user);
+      setSuccessMessage('Successfully logged in !');
+      router.push('/profile');
     } catch (error) {
       setError(error as ErrorResponse);
     } finally {
@@ -67,6 +68,7 @@ export default function LoginForm() {
             type="email"
             name="email"
             className={css.input}
+            autoComplete="username"
             required
           />
           <ErrorMessage name="email" className={css.error} component="span" />
@@ -79,6 +81,7 @@ export default function LoginForm() {
             type="password"
             name="password"
             className={css.input}
+            autoComplete="current-password"
             required
           />
           <ErrorMessage
@@ -92,6 +95,7 @@ export default function LoginForm() {
           </button>
         </Form>
       </Formik>
+      <GoogleOAuthBtn />
       {isLoading && <FullScreenLoader text="Logging in..." />}
       {error && !isLoading && (
         <ErrorToastMessage>

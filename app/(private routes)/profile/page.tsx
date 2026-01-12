@@ -1,4 +1,4 @@
-import { getServerMe } from '@/lib/api/serverApi/userApi';
+import { getMeServer } from '@/lib/api/serverApi/userApi';
 import Link from 'next/link';
 import css from './page.module.css';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
@@ -29,7 +29,7 @@ export function generateMetadata() {
 }
 
 export default async function Profile() {
-  const user = await getServerMe();
+  const user = await getMeServer();
 
   return (
     <section className={css.section}>
@@ -40,17 +40,18 @@ export default async function Profile() {
           <div className={css.avatarWrapper}>
             <Image
               src={user.avatar ?? '/default-avatar.svg'}
-              alt={`${user.username}'s avatar`}
+              alt={`${user.name}'s avatar`}
               width={120}
               height={120}
               className={css.avatar}
+              priority
             />
           </div>
 
           <div className={css.info}>
             <h2 className={css.subtitle}>Account Information</h2>
             <p className={css.field}>
-              <span className={css.label}>Username:</span> {user.username}
+              <span className={css.label}>Name:</span> {user.name}
             </p>
             <p className={css.field}>
               <span className={css.label}>Email:</span> {user.email}

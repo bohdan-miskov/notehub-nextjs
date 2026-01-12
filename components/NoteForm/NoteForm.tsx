@@ -7,19 +7,19 @@ import {
   DEFAULT_ERROR,
   ERROR_CODES,
   ERROR_MESSAGES,
-  TAG,
-  TAGS_ARRAY,
+  TAGS_QUERY_KEY,
 } from '@/constants';
 import { SelectField } from '../FormikSelectField/FormikSelectField';
 import { noteSchema } from './NoteForm.validation';
 import { useRouter } from 'next/navigation';
 import { useNoteDraftStore } from '@/lib/stores/noteStore';
 import FullScreenLoader from '../FullScreenLoader/FullScreenLoader';
-import { createNote, updateNote } from '@/lib/api/clientApi/noteApi';
+import { createNote, getTags, updateNote } from '@/lib/api/clientApi/noteApi';
 import { useState } from 'react';
 import ErrorToastMessage from '../ErrorToastMessage/ErrorToastMessage';
 import { ErrorResponse } from '@/types/api';
 import SuccessToastMessage from '../SuccessToastMessage/SuccessToastMessage';
+import { useQuery } from '@tanstack/react-query';
 
 type Props = {
   note?: Note;
@@ -27,6 +27,10 @@ type Props = {
 
 export default function NoteForm({ note }: Props) {
   const router = useRouter();
+  const { data: tags = [] } = useQuery({
+    queryKey: [TAGS_QUERY_KEY],
+    queryFn: getTags,
+  });
   const { draft, hasHydrated, setDraft, clearDraft } = useNoteDraftStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorResponse | null>(null);
@@ -54,14 +58,16 @@ export default function NoteForm({ note }: Props) {
   type InitialValues = {
     title: string;
     content: string;
-    tag: TAG;
+    isDone: boolean;
+    tag: string;
   };
 
   const initialValues: InitialValues = note
     ? {
         title: note.title,
         content: note.content,
-        tag: note.tag,
+        isDone: note.isDone,
+        tag: String(note.tag),
       }
     : draft;
 
@@ -97,7 +103,7 @@ export default function NoteForm({ note }: Props) {
     router.back();
   }
 
-  const tagOptions = TAGS_ARRAY.map(tag => {
+  const tagOptions = tags.map(tag => {
     return { label: tag, value: tag };
   });
 
@@ -158,6 +164,28 @@ export default function NoteForm({ note }: Props) {
               </div>
 
               <div className={css.formGroup}>
+                <div className={css.checkboxGroup}>
+                  <label className={css.label} htmlFor="isDone">
+                    Is done
+                  </label>
+                  <Field
+                    id="isDone"
+                    name="isDone"
+                    type="checkbox"
+                    value="true"
+                    checked={values.isDone}
+                    onChange={onChange}
+                    className={css.checkbox}
+                  />
+                </div>
+                <ErrorMessage
+                  name="isDone"
+                  className={css.error}
+                  component="span"
+                />
+              </div>
+
+              <div className={css.formGroup}>
                 <label className={css.label} htmlFor="tag">
                   Tag
                 </label>
@@ -166,7 +194,7 @@ export default function NoteForm({ note }: Props) {
                   options={tagOptions}
                   className={css.select}
                   onChange={value =>
-                    handleSetDraft({ ...values, tag: value ?? TAGS_ARRAY[0] })
+                    handleSetDraft({ ...values, tag: value ?? tags[0] })
                   }
                 />
                 <ErrorMessage

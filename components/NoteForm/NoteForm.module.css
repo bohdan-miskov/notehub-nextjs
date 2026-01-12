@@ -60,6 +60,22 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
+.checkboxGroup {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-left: 16px;
+}
+.checkboxGroup > label {
+  order: 1;
+  margin: 0;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;

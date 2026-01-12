@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { api } from '../../api';
 import { setAuthCookies } from '@/utils/cookieOperations';
 import { cookies } from 'next/headers';
 import {
@@ -7,23 +6,20 @@ import {
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
 import { ApiError } from '@/types/api';
-import { CookiesResponse } from '@/types/auth';
 
-export async function POST(request: NextRequest) {
-  const payload = await request.json();
+export async function GET(request: NextRequest) {
+  const url = new URL(request.url).searchParams;
+  const tokens = {
+    accessToken: url.get('accessToken') as string,
+    expiresIn: Number(url.get('expiresIn')),
+    refreshToken: url.get('refreshToken') as string,
+    refreshExpiresIn: Number(url.get('refreshExpiresIn')),
+  };
 
   try {
-    const response = await api.post<CookiesResponse>('/auth/login', payload);
     const cookieStore = await cookies();
-    const cookiesData = response.data;
-
-    if (cookiesData) {
-      setAuthCookies(cookieStore, cookiesData);
-
-      return NextResponse.json({});
-    }
-
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    setAuthCookies(cookieStore, tokens);
+    return NextResponse.redirect(new URL('/', request.url));
   } catch (error) {
     return NextResponse.json(
       {

@@ -3,7 +3,7 @@ type Props = {
   sidebar: React.ReactNode;
 };
 
-const NotesLayout = ({ children, sidebar }: Props) => {
+const NotesFilterLayout = ({ children, sidebar }: Props) => {
   return (
     <div>
       <aside>{sidebar}</aside>
@@ -12,4 +12,4 @@ const NotesLayout = ({ children, sidebar }: Props) => {
   );
 };
 
-export default NotesLayout;
+export default NotesFilterLayout;

@@ -8,6 +8,11 @@ import {
 } from '@/types/note';
 import { nextServer } from '../api';
 
+export async function getTags() {
+  const response = await nextServer.get<string[]>('/notes/tags');
+  return response.data;
+}
+
 export async function getNotes(params: NotesSearchParams = {}) {
   params.search = params?.search?.trim().toLowerCase();
 

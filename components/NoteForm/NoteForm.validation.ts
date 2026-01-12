@@ -1,4 +1,3 @@
-import { TAGS_ARRAY } from '@/constants';
 import * as Yup from 'yup';
 
 export const noteSchema = Yup.object()
@@ -13,8 +12,7 @@ export const noteSchema = Yup.object()
       .min(2, 'Too short')
       .max(3000, 'Too long')
       .required('Content is required'),
-    tag: Yup.string()
-      .oneOf(TAGS_ARRAY, 'Invalid tag')
-      .required('Tag is required'),
+    isDone: Yup.boolean(),
+    tag: Yup.string().required('Tag is required'),
   })
   .required();

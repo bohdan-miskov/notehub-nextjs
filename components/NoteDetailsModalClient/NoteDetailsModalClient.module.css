@@ -43,6 +43,11 @@
   line-height: 1.3;
 }
 
+.titleAccent {
+  margin-left: 8px;
+  color: green;
+}
+
 .scrollArea {
   flex: 1;
   overflow-y: auto;

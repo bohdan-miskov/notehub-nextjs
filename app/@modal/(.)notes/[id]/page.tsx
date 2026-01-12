@@ -1,6 +1,5 @@
 import NoteDetailsModalClient from '@/components/NoteDetailsModalClient/NoteDetailsModalClient';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
-import { getNoteById } from '@/lib/api/clientApi/noteApi';
 import { getNoteByIdServer } from '@/lib/api/serverApi/noteApi';
 import {
   dehydrate,
@@ -38,11 +37,10 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function NotePreview({ params }: Props) {
   const { id } = await params;
-
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
-    queryFn: () => getNoteById(id),
+    queryFn: () => getNoteByIdServer(id),
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

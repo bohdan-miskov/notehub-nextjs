@@ -7,8 +7,10 @@ import {
   parseApiErrorStatus,
 } from '@/utils/parseApiError';
 import { ApiError } from '@/types/api';
+import { createBearerAuth } from '@/utils/createBearerAuth';
+import { CookiesResponse } from '@/types/auth';
 
-export async function GET() {
+export async function POST() {
   const cookieStore = await cookies();
   const { accessToken, refreshToken } = getAuthCookies(cookieStore);
   if (accessToken) {
@@ -17,15 +19,19 @@ export async function GET() {
 
   if (refreshToken) {
     try {
-      const response = await api.get('auth/session', {
-        headers: {
-          Cookie: cookieStore.toString(),
-        },
-      });
+      const response = await api.post<CookiesResponse>(
+        'auth/refresh',
+        {},
+        {
+          headers: {
+            Authorization: createBearerAuth(refreshToken),
+          },
+        }
+      );
 
-      const setCookie = response.headers['set-cookie'];
-      if (setCookie) {
-        setAuthCookies(cookieStore, setCookie);
+      const cookiesData = response.data;
+      if (cookiesData) {
+        setAuthCookies(cookieStore, cookiesData);
         return NextResponse.json({ success: true });
       }
 

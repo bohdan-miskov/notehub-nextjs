@@ -1,6 +1,5 @@
 import NoteDetailsClient from '@/components/NoteDetailsClient/NoteDetailsClient';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
-import { getNoteById } from '@/lib/api/clientApi/noteApi';
 import { getNoteByIdServer } from '@/lib/api/serverApi/noteApi';
 import {
   dehydrate,
@@ -42,7 +41,7 @@ export default async function NoteDetailsPage({ params }: Props) {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
-    queryFn: () => getNoteById(id),
+    queryFn: () => getNoteByIdServer(id),
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

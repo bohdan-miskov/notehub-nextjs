@@ -35,6 +35,11 @@
   font-weight: 700;
 }
 
+.titleAccent {
+  margin-left: 8px;
+  color: green;
+}
+
 .content {
   font-size: clamp(16px, 2vw, 18px);
   line-height: 1.8;
