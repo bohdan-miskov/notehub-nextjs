@@ -1,4 +1,4 @@
-import { UserUpdateData, UserProfile } from '@/types/auth';
+import { UserProfile } from '@/types/auth';
 import { nextServer } from '../api';
 
 export async function getMe() {

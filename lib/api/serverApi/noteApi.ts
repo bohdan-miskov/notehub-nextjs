@@ -1,15 +1,12 @@
 import { cookies } from 'next/headers';
-import { nextServer } from '../api';
+import { nestServer } from '../api';
 import { Note, NoteResponse, NotesSearchParams } from '@/types/note';
 import { PER_PAGE } from '@/constants';
+import { createBearerAuth } from '@/utils/createBearerAuth';
+import { getAuthCookies } from '@/utils/cookieOperations';
 
 export async function getTagsServer() {
-  const cookieStore = await cookies();
-  const response = await nextServer.get<string[]>('/notes/tags', {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
+  const response = await nestServer.get<string[]>('/notes/tags');
   return response.data;
 }
 
@@ -20,13 +17,15 @@ export async function getNotesServer(params: NotesSearchParams = {}) {
     delete params.search;
   }
   const cookieStore = await cookies();
-  const response = await nextServer.get<NoteResponse>('/notes', {
+  const { accessToken } = getAuthCookies(cookieStore);
+
+  const response = await nestServer.get<NoteResponse>('/notes', {
     params: {
       ...params,
       PER_PAGE,
     },
     headers: {
-      Cookie: cookieStore.toString(),
+      Authorization: createBearerAuth(accessToken ?? ''),
     },
   });
   return response.data;
@@ -34,9 +33,10 @@ export async function getNotesServer(params: NotesSearchParams = {}) {
 
 export async function getNoteByIdServer(id: string) {
   const cookieStore = await cookies();
-  const response = await nextServer.get<Note>(`/notes/${id}`, {
+  const { accessToken } = getAuthCookies(cookieStore);
+  const response = await nestServer.get<Note>(`/notes/${id}`, {
     headers: {
-      Cookie: cookieStore.toString(),
+      Authorization: createBearerAuth(accessToken ?? ''),
     },
   });
   return response.data;

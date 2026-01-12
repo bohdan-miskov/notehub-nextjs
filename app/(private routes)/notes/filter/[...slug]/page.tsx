@@ -1,6 +1,5 @@
 import NoteListClient from '@/components/NoteListClient/NoteListClient';
 import { OG_IMAGE_URL, PAGE_BASE_URL } from '@/constants';
-import { getTags } from '@/lib/api/clientApi/noteApi';
 import { getNotesServer, getTagsServer } from '@/lib/api/serverApi/noteApi';
 import { parseTagFromArray } from '@/utils/parseTag';
 import {
@@ -14,7 +13,7 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const tags = await getTags();
+  const tags = await getTagsServer();
 
   const paths = tags.map((tag: string) => ({
     slug: [tag],
